@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">PetFinder</string>
+    <string name="SignUpButton">Sign up</string>
+    <string name="SignInButton">Sign in</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_pets">Pets</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_title">PetFinder</string>
+    <string name="home_app_info">We know you love your pets and when they get lost is something harmful for us and for the pet and sometimes search becomes difficult and expensive,
+        that’s why that with PetFinder your community can help you find your pet and you can find others’ pets too in a quickly and safe way without paying anything.
+        \n\n
+        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
+        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
+        you can add a post so people can be aware and help you find.
+        \n\n
+        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
+        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
+        you can add a post so people can be aware and help you find.
+         \n\n
+        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
+        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
+        you can add a post so people can be aware and help you find.
+         \n\n
+        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
+        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
+        you can add a post so people can be aware and help you find.
+    </string>
 </resources>
