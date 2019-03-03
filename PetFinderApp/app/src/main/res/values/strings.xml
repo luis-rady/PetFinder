@@ -29,4 +29,5 @@
         can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
         you can add a post so people can be aware and help you find.
     </string>
+    <string name="title_activity_maps">Map</string>
 </resources>
