@@ -16,17 +16,24 @@
         With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
         can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
         you can add a post so people can be aware and help you find.
-        \n\n
-        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
-        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
-        you can add a post so people can be aware and help you find.
-         \n\n
-        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
-        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
-        you can add a post so people can be aware and help you find.
-         \n\n
-        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
-        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
-        you can add a post so people can be aware and help you find.
     </string>
+    <string name="email_label">Email</string>
+    <string name="hint_email">Enter your email address</string>
+    <string name="password_label">Password</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="name_label">First Name(s)</string>
+    <string name="hint_firstnames">Enter your first name(s)</string>
+    <string name="hint_lastnames">Enter your lastnames</string>
+    <string name="lastnames_label">Lastnames</string>
+    <string name="error_title">Error</string>
+    <string name="error_message">You need to sign in to see this information</string>
+    <string name="welcome_user_title">Welcome %1$s</string>
+    <string name="login_message">Thank you for using PetFinder app for helping your community to find their lost pets and meanwhile they can find yours</string>
+    <string name="user_info_title">Your information</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="edit_info_button">Edit information</string>
+    <string name="logoutButton">Logout</string>
+    <string name="updateButton">Update</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="description_label">Description</string>
 </resources>

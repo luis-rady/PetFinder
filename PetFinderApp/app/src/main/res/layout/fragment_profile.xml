@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,24 +9,42 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/sign-in-button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/buttonsColor"
-        android:textColor="@color/white"
-        android:text="@string/SignInButton"
-        />
+            <Button
+                android:id="@+id/sign-in-button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:background="@color/buttonsColor"
+                android:text="@string/SignInButton"
+                android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/sign-up-button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/buttonsColor"
-        android:text="@string/SignUpButton"
-        android:textColor="@color/white" />
+            <Button
+                android:id="@+id/sign-up-button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonsColor"
+                android:text="@string/SignUpButton"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/profile_fragment" >
+        </FrameLayout>
 
+    </LinearLayout>
 </LinearLayout>
