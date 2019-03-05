@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PetsFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/card_view"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/your_pets"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="25sp"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="PEts" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imgButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="img1"
+                tools:src="@tools:sample/avatars" />
+
+            <ImageButton
+                android:id="@+id/imgButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgButton1"
+                android:contentDescription="img2"
+                tools:src="@tools:sample/avatars" />
+
+            <ImageButton
+                android:id="@+id/imgButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgButton2"
+                android:contentDescription="img3"
+                tools:src="@tools:sample/avatars" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </FrameLayout>
