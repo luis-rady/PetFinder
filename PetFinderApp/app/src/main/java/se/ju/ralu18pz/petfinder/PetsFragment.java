@@ -3,9 +3,11 @@ package se.ju.ralu18pz.petfinder;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 
 /**
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
  */
 public class PetsFragment extends Fragment {
 
+    private CardView cardView;
 
     public PetsFragment() {
         // Required empty public constructor
@@ -26,4 +29,11 @@ public class PetsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_pets, container, false);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        cardView = (CardView) getView().findViewById(R.id.card_view);
+
+
+    }
 }
