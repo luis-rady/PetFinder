@@ -1,6 +1,7 @@
 package se.ju.ralu18pz.petfinder;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,12 +9,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -44,15 +48,59 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return v;
     }
 
+
+    static final LatLng current = new LatLng(57.778, 14.16);
+    static final LatLng pet1 = new LatLng(57.778550, 14.161945);
+    static final LatLng pet2 = new LatLng(57.776935, 14.153149);
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng yourlocation = new LatLng(57.778, 14.16);
-        LatLng pet1 = new LatLng(57.778550, 14.161945);
-        LatLng pet2 = new LatLng(57.776935, 14.153149);
-        mMap.addMarker(new MarkerOptions().position(pet1).title("pet1 name"));
-        mMap.addMarker(new MarkerOptions().position(pet2).title("pet2 name"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(yourlocation,15));
+        mMap.addMarker(new MarkerOptions().position(pet1).title("Simba"));
+        mMap.addMarker(new MarkerOptions().position(pet2).title("Scar"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current,15));
+
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+                View v = null;
+                try {
+
+                    // Getting view from the layout file info_window_layout
+                    v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
+
+                    // Getting reference to the TextView to set latitude
+
+                    TextView addressTxt = (TextView) v.findViewById(R.id.addressTxt);
+                    addressTxt.setText(arg0.getTitle());
+
+                } catch (Exception ev) {
+                    System.out.print(ev.getMessage());
+                }
+
+                return v;
+
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                System.out.println("Info window clicked");
+                Intent intent = new Intent(getActivity(), PetInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
+
 }
