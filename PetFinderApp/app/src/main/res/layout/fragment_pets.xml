@@ -1,24 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".PetsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/card_view"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/your_pets"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="25sp"/>
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/your_pets_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/your_pets"
+            android:textAlignment="center"
+            android:layout_margin="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="25sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp">
+
+                <Button
+                    android:id="@+id/register_pet_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/buttonsColor"
+                    android:text="@string/add_pet_label"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <Button
+                    android:id="@+id/edit_pet_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/buttonsColor"
+                    android:text="@string/edit_pet_label"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/profile_default"
+                    android:layout_margin="20dp"/>
+
+                <TextView
+                    android:id="@+id/pet_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_pets"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:id="@+id/pet_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_pets"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/profile_default"
+                    android:layout_margin="20dp"/>
+
+                <TextView
+                    android:id="@+id/pet_name_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_pets"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:id="@+id/pet_description_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_pets"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+<!--
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
@@ -36,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="img1"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/profile_default" />
 
             <ImageButton
                 android:id="@+id/imgButton2"
@@ -44,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgButton1"
                 android:contentDescription="img2"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/lion" />
 
             <ImageButton
                 android:id="@+id/imgButton3"
@@ -52,8 +176,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgButton2"
                 android:contentDescription="img3"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/profile_default" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
-</FrameLayout>
+-->
+</ScrollView>

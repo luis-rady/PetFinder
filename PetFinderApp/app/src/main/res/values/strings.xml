@@ -38,4 +38,15 @@
     <string name="description_label">Description</string>
     <string name="title_activity_maps">Map</string>
     <string name="your_pets">Your Pets</string>
+    <string name="lost_pets_button">Lost Pets</string>
+    <string name="found_pets_button">Found pets</string>
+    <string name="missing_pet">Missing Pet</string>
+    <string name="pet_name_label">Name:</string>
+    <string name="report_found_pet">Report a found pet</string>
+    <string name="report_lost_pet">Report a lost pet</string>
+    <string name="no_permission_label">No permission granted</string>
+    <string name="permission_description">You need to accept the permission to use this feature</string>
+    <string name="go_to_permission_button">Go to permission</string>
+    <string name="add_pet_label">Register a pet</string>
+    <string name="edit_pet_label">Edit a pet</string>
 </resources>
