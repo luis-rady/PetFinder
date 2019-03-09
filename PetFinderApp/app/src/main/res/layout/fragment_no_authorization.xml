@@ -24,4 +24,14 @@
         android:textAlignment="center"
         android:textSize="18sp"/>
 
+    <Button
+        android:id="@+id/redirect_to_sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/buttonsColor"
+        android:text="@string/go_to_sign_in_button"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
 </LinearLayout>

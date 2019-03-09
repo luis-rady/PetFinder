@@ -2,10 +2,15 @@ package se.ju.ralu18pz.petfinder;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -13,6 +18,8 @@ import android.view.ViewGroup;
  */
 public class NoAuthorizationFragment extends Fragment {
 
+    private ProfileFragment profileFragment;
+    private Button button;
 
     public NoAuthorizationFragment() {
         // Required empty public constructor
@@ -26,4 +33,25 @@ public class NoAuthorizationFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_no_authorization, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        profileFragment = new ProfileFragment();
+        button = getView().findViewById(R.id.redirect_to_sign_in_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(profileFragment);
+                MainActivity.mainNav.getMenu().getItem(3).setChecked(true);
+            }
+        });
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
+    }
 }

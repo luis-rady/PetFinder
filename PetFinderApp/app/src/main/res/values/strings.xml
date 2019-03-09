@@ -49,4 +49,8 @@
     <string name="go_to_permission_button">Go to permission</string>
     <string name="add_pet_label">Register a pet</string>
     <string name="edit_pet_label">Edit a pet</string>
+    <string name="error_sign_up">Sign up error</string>
+    <string name="error_sign_in">Sign in error</string>
+    <string name="successful_login">Login successfully</string>
+    <string name="go_to_sign_in_button">Go to sign in</string>
 </resources>

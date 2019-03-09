@@ -1,22 +1,28 @@
 package se.ju.ralu18pz.petfinder;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 /**
@@ -62,13 +68,20 @@ public class EditUserFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(items[which].equals("Camera")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
+                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                    }
+                    else {
+                        cameraIntent();
+                    }
                 }
                 else if(items[which].equals("Gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, SELECT_FILE);
+                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, SELECT_FILE);
+                    }
+                    else {
+                        galleryIntent();
+                    }
                 }
                 else {
                     dialog.dismiss();
@@ -76,6 +89,33 @@ public class EditUserFragment extends Fragment {
             }
         });
         builder.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == SELECT_FILE) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                galleryIntent();
+            }
+            else {
+                Toast toast= Toast.makeText(getActivity(), "Gallery permission not granted", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        else if(requestCode == REQUEST_CAMERA) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                cameraIntent();
+            }
+            else {
+                Toast toast = Toast.makeText(getActivity(), "Camera permission not granted", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        else {
+            Toast toast = Toast.makeText(getActivity(), "is neither", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
 
@@ -87,12 +127,31 @@ public class EditUserFragment extends Fragment {
                 Bundle bundle = data.getExtras();
                 final Bitmap bitmap = (Bitmap) bundle.get("data");
                 profilePic.setImageBitmap(bitmap);
-
             }
             else if(requestCode == SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
                 profilePic.setImageURI(selectedImageUri);
             }
+        }
+    }
+
+    private void galleryIntent() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, SELECT_FILE);
+    }
+
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private boolean checkCameraHardware() {
+        if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            return true;
+        } else {
+            // no camera on this device
+            return false;
         }
     }
 }

@@ -10,13 +10,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInFragment extends Fragment {
 
     private ProgressBar progressBar;
     private Button login;
-    private EditUserFragment editUserFragment;
+    private HomeAfterLoginFragment homeAfterLoginFragment;
+
+    // Form fields
+    private EditText emailInput;
+    private EditText passwordInput;
+
+    // Value of fields
+
+    private String email;
+    private String password;
+
+    private FirebaseAuth auth;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -36,14 +55,40 @@ public class SignInFragment extends Fragment {
 
         progressBar = getView().findViewById(R.id.sign_in_progressbar);
         login = (Button) getView().findViewById(R.id.login_button);
-        editUserFragment = new EditUserFragment();
+        emailInput = getView().findViewById(R.id.email_input);
+        passwordInput = getView().findViewById(R.id.password_input);
+
+        auth = FirebaseAuth.getInstance();
+
+        homeAfterLoginFragment = new HomeAfterLoginFragment();
 
         progressBar.setVisibility(View.GONE);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(editUserFragment);
+                email = emailInput.getText().toString().trim();
+                password = passwordInput.getText().toString().trim();
+
+                progressBar.setVisibility(View.VISIBLE);
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+                                if(task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), getString(R.string.successful_login), Toast.LENGTH_LONG).show();
+                                    setFragment(homeAfterLoginFragment);
+                                    MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
+                                }
+                            }
+                        })
+                        .addOnFailureListener(getActivity(), new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), getString(R.string.error_sign_in), Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         });
     }

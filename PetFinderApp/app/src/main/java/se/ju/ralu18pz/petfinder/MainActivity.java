@@ -16,9 +16,12 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 123;
-    private BottomNavigationView mainNav;
+    public static BottomNavigationView mainNav;
     private FrameLayout mainFrame;
 
     private HomeFragment homeFragment;
@@ -26,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private PetsFragment petsFragment;
     private ProfileFragment profileFragment;
     private DenyLocationPermissionFragment denyLocationPermissionFragment;
+    private NoAuthorizationFragment noAuthorizationFragment;
+    private UserFragment userFragment;
+    private HomeAfterLoginFragment homeAfterLoginFragment;
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +47,47 @@ public class MainActivity extends AppCompatActivity {
         mapFragment = new MapFragment();
         petsFragment = new PetsFragment();
         profileFragment = new ProfileFragment();
+        noAuthorizationFragment = new NoAuthorizationFragment();
+        userFragment = new UserFragment();
+        homeAfterLoginFragment = new HomeAfterLoginFragment();
+
+        auth = FirebaseAuth.getInstance();
+        final FirebaseUser user = auth.getCurrentUser();
 
         setFragment(homeFragment);
+        mainNav.getMenu().getItem(0).setChecked(true);
 
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.home_button:
-                        setFragment(homeFragment);
+                        if(user == null) {
+                            setFragment(homeFragment);
+                        }
+                        else {
+                            setFragment(homeAfterLoginFragment);
+                        }
                         return true;
                     case R.id.map_button:
                         verifyLocationPermission();
                         return true;
                     case R.id.pets_button:
-                        setFragment(petsFragment);
+                        if(user == null) {
+                            setFragment(noAuthorizationFragment);
+                        }
+                        else {
+                            setFragment(petsFragment);
+                        }
                         return true;
                     case R.id.profile_button:
-                        setFragment(profileFragment);
+                        if(user == null) {
+                            setFragment(profileFragment);
+                        }
+                        else {
+                            setFragment(userFragment);
+                        }
                         return true;
-
                         default:
                             return false;
                 }
