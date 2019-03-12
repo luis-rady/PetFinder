@@ -15,29 +15,53 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class EditUserFragment extends Fragment {
 
-    private ImageView profilePic;
-    private int REQUEST_CAMERA = 1;
-    private int SELECT_FILE = 0;
+    private EditText emailInput;
+    private EditText nameInput;
+    private EditText lastNameInput;
+    private EditText passwordInput;
+
+    private Button editUser;
+    private ProgressBar progressBar;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private FirebaseFirestore db;
+
+    private boolean validForm;
+    private String name;
+    private String lastnames;
+    private String email;
+    private String password;
+
+    private UserFragment userFragment;
 
     public EditUserFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,108 +74,133 @@ public class EditUserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        profilePic = (ImageView) getView().findViewById(R.id.profile_pic_edit);
-        profilePic.setOnClickListener(new View.OnClickListener() {
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+        nameInput = getView().findViewById(R.id.update_name_input);
+        lastNameInput = getView().findViewById(R.id.update_lastnames_input);
+        emailInput = getView().findViewById(R.id.email_input_edit);
+        passwordInput = getView().findViewById(R.id.password_input_edit);
+        editUser = getView().findViewById(R.id.update_user_button);
+        progressBar = getView().findViewById(R.id.update_user_progress_bar);
+
+        userFragment = new UserFragment();
+
+        emailInput.setFocusable(false);
+        progressBar.setVisibility(View.GONE);
+        editUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectImage();
+                name = nameInput.getText().toString().trim();
+                lastnames = lastNameInput.getText().toString().trim();
+                password = passwordInput.getText().toString().trim();
+                email = emailInput.getText().toString().trim();
+
+                validForm = formValidation(name, lastnames, password);
+
+                if(validForm) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    db.collection("Users").document(user.getUid())
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    User currentUser = documentSnapshot.toObject(User.class);
+                                    currentUser.firstName = name;
+                                    currentUser.lastName = lastnames;
+                                    currentUser.email = email;
+
+                                    db.collection("Users").document(user.getUid())
+                                            .set(currentUser)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    user.updatePassword(password)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    progressBar.setVisibility(View.GONE);
+                                                                    setFragment(userFragment);
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                                                                }
+                                                            });
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
             }
         });
     }
 
-    private void SelectImage() {
-        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add profile picture");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(items[which].equals("Camera")) {
-                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    }
-                    else {
-                        cameraIntent();
-                    }
-                }
-                else if(items[which].equals("Gallery")) {
-                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, SELECT_FILE);
-                    }
-                    else {
-                        galleryIntent();
-                    }
-                }
-                else {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == SELECT_FILE) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                galleryIntent();
-            }
-            else {
-                Toast toast= Toast.makeText(getActivity(), "Gallery permission not granted", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+    private boolean formValidation(String name, String lastnames, String password) {
+        if(!isValidName(name)) {
+            nameInput.setError("Name is not valid");
+            nameInput.requestFocus();
         }
-        else if(requestCode == REQUEST_CAMERA) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                cameraIntent();
-            }
-            else {
-                Toast toast = Toast.makeText(getActivity(), "Camera permission not granted", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+
+        if(!isValidLastname(lastnames)) {
+            lastNameInput.setError("Lastnames are not valid");
+            lastNameInput.requestFocus();
         }
-        else {
-            Toast toast = Toast.makeText(getActivity(), "is neither", Toast.LENGTH_SHORT);
-            toast.show();
+
+        if(!isValidPassword(password)) {
+            passwordInput.setError("Password is not valid, it should have at least 6 characters");
+            passwordInput.requestFocus();
         }
-    }
 
-
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == REQUEST_CAMERA) {
-                Bundle bundle = data.getExtras();
-                final Bitmap bitmap = (Bitmap) bundle.get("data");
-                profilePic.setImageBitmap(bitmap);
-            }
-            else if(requestCode == SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-                profilePic.setImageURI(selectedImageUri);
-            }
-        }
-    }
-
-    private void galleryIntent() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(intent, SELECT_FILE);
-    }
-
-    private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
-    }
-
-    private boolean checkCameraHardware() {
-        if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            return true;
-        } else {
-            // no camera on this device
+        if(!isValidName(name) || !isValidLastname(lastnames) || !isValidPassword(password)) {
             return false;
         }
+
+        return true;
+    }
+
+    private boolean isValidName(String name) {
+        if(name.length() < 3) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidLastname(String lastName) {
+        if(lastName.length() < 2) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidPassword(String password) {
+        if(password.length() < 6) {
+            return false;
+        }
+
+        return true;
     }
 }

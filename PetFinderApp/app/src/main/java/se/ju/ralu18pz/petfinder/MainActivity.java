@@ -54,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         final FirebaseUser user = auth.getCurrentUser();
 
-        setFragment(homeFragment);
+        if(user == null) {
+            setFragment(homeFragment);
+        }
+        else {
+            setFragment(homeAfterLoginFragment);
+        }
+
         mainNav.getMenu().getItem(0).setChecked(true);
 
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

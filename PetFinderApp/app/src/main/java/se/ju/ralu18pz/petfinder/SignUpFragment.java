@@ -39,7 +39,7 @@ public class SignUpFragment extends Fragment {
 
     private ProgressBar progressBar;
     private Button registerButton;
-    private HomeFragment homeFragment;
+    private HomeAfterLoginFragment homeAfterLoginFragment;
 
     // Form fields
 
@@ -73,7 +73,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        homeFragment = new HomeFragment();
+        homeAfterLoginFragment = new HomeAfterLoginFragment();
         progressBar = getView().findViewById(R.id.sign_up_progressbar);
         registerButton = getView().findViewById(R.id.register_button);
         nameEditText = getView().findViewById(R.id.name_input);
@@ -110,7 +110,8 @@ public class SignUpFragment extends Fragment {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         progressBar.setVisibility(View.GONE);
-                                                        setFragment(homeFragment);
+                                                        Toast.makeText(getActivity(), getString(R.string.successful_sign_up), Toast.LENGTH_LONG).show();
+                                                        setFragment(homeAfterLoginFragment);
                                                         MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
                                                     }
                                                 })
@@ -123,7 +124,6 @@ public class SignUpFragment extends Fragment {
                                     }
                                     else {
                                         Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        System.out.println(task.getException().getMessage());
                                     }
                                 }
                             });

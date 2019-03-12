@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class SignInFragment extends Fragment {
 
     private String email;
     private String password;
+    private boolean validForm;
 
     private FirebaseAuth auth;
 
@@ -54,7 +56,7 @@ public class SignInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         progressBar = getView().findViewById(R.id.sign_in_progressbar);
-        login = (Button) getView().findViewById(R.id.login_button);
+        login = getView().findViewById(R.id.login_button);
         emailInput = getView().findViewById(R.id.email_input);
         passwordInput = getView().findViewById(R.id.password_input);
 
@@ -70,28 +72,69 @@ public class SignInFragment extends Fragment {
                 email = emailInput.getText().toString().trim();
                 password = passwordInput.getText().toString().trim();
 
-                progressBar.setVisibility(View.VISIBLE);
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), getString(R.string.successful_login), Toast.LENGTH_LONG).show();
-                                    setFragment(homeAfterLoginFragment);
-                                    MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
+                validForm = formValidation(email, password);
+
+                if(validForm) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(getActivity(), getString(R.string.successful_login), Toast.LENGTH_LONG).show();
+                                        setFragment(homeAfterLoginFragment);
+                                        MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
+                                    }
                                 }
-                            }
-                        })
-                        .addOnFailureListener(getActivity(), new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), getString(R.string.error_sign_in), Toast.LENGTH_LONG).show();
-                            }
-                        });
+                            })
+                            .addOnFailureListener(getActivity(), new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), getString(R.string.error_sign_in), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+
             }
         });
     }
+
+    private boolean formValidation(String email, String password) {
+        if(!isValidEmail(email)) {
+            emailInput.setError("Email is not valid");
+            emailInput.requestFocus();
+        }
+
+        if(!isValidPassword(password)) {
+            passwordInput.setError("Password is not valid, it should have at least 6 characters");
+            passwordInput.requestFocus();
+        }
+
+        if(!isValidEmail(email) || !isValidPassword(password)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidEmail(String email) {
+        CharSequence c_email = email;
+        if(email.length() == 0) {
+            return false;
+        }
+
+        return Patterns.EMAIL_ADDRESS.matcher(c_email).matches();
+    }
+
+    private boolean isValidPassword(String password) {
+        if(password.length() < 6) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

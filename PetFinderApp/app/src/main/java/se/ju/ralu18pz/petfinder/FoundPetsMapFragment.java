@@ -20,6 +20,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 /**
@@ -30,6 +32,11 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
     SupportMapFragment mapFragment;
     private PetInfoFragment petInfoFragment;
     private Button reportPetButton;
+    private NoAuthorizationFragment noAuthorizationFragment;
+    private FoundPostPetFragment foundPostPetFragment;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     static final LatLng current = new LatLng(57.778, 14.16);
     static final LatLng pet1 = new LatLng(57.778550, 14.161945);
@@ -62,6 +69,18 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
         super.onViewCreated(view, savedInstanceState);
 
         reportPetButton = getView().findViewById(R.id.report_found_pet_button);
+        noAuthorizationFragment = new NoAuthorizationFragment();
+        foundPostPetFragment = new FoundPostPetFragment();
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        reportPetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(foundPostPetFragment);
+            }
+        });
     }
 
     @Override
@@ -106,14 +125,16 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                System.out.println("Info window clicked");
                 petInfoFragment = new PetInfoFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_frame, petInfoFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                setFragment(petInfoFragment);
             }
         });
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 
 }

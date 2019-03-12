@@ -22,14 +22,6 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="25sp" />
 
-        <ImageView
-            android:id="@+id/profile_pic_edit"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/profile_picture"
-            android:src="@drawable/profile_default" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +49,7 @@
                         android:textSize="15sp" />
 
                     <EditText
-                        android:id="@+id/name_input"
+                        android:id="@+id/update_name_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPersonName"
@@ -79,7 +71,7 @@
                         android:textSize="15sp" />
 
                     <EditText
-                        android:id="@+id/lastnames_input"
+                        android:id="@+id/update_lastnames_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPersonName"
@@ -104,40 +96,20 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/email_input_sign_up"
+                    android:id="@+id/email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
-                    android:autofillHints="@string/hint_email"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:id="@+id/description_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/description_label"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/user_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:gravity="top"
                     android:autofillHints="@string/hint_email"
-                    android:hint="@string/description_label"
-                    android:inputType="text|textMultiLine" />
+                    />
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/update_user_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -153,7 +125,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/password_input_sign_up"
+                    android:id="@+id/password_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="@string/hint_password"
@@ -169,21 +141,20 @@
                 android:layout_marginTop="20dp">
 
                 <Button
-                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/error"
+                    android:text="@string/cancel_button"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/update_user_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/buttonsColor"
                     android:text="@string/updateButton"
                     android:textColor="@color/white"
                     android:layout_marginEnd="20dp"/>
-
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/error"
-                    android:text="@string/cancel_button"
-                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>
