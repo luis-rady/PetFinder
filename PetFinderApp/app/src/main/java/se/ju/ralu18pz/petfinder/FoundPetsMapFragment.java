@@ -30,13 +30,12 @@ import com.google.firebase.auth.FirebaseUser;
 public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
+
     private PetInfoFragment petInfoFragment;
-    private Button reportPetButton;
     private NoAuthorizationFragment noAuthorizationFragment;
     private FoundPostPetFragment foundPostPetFragment;
 
-    private FirebaseAuth auth;
-    private FirebaseUser user;
+    private Button reportPetButton;
 
     static final LatLng current = new LatLng(57.778, 14.16);
     static final LatLng pet1 = new LatLng(57.778550, 14.161945);
@@ -72,13 +71,17 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
         noAuthorizationFragment = new NoAuthorizationFragment();
         foundPostPetFragment = new FoundPostPetFragment();
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
         reportPetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(foundPostPetFragment);
+                if(MainActivity.currentUser == null) {
+                    setFragment(noAuthorizationFragment);
+                }
+                else {
+                    setFragment(foundPostPetFragment);
+                }
             }
         });
     }

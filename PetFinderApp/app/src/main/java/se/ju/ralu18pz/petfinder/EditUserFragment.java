@@ -45,10 +45,9 @@ public class EditUserFragment extends Fragment {
     private EditText passwordInput;
 
     private Button editUser;
+    private Button cancel;
     private ProgressBar progressBar;
 
-    private FirebaseAuth auth;
-    private FirebaseUser user;
     private FirebaseFirestore db;
 
     private boolean validForm;
@@ -74,21 +73,40 @@ public class EditUserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
         nameInput = getView().findViewById(R.id.update_name_input);
         lastNameInput = getView().findViewById(R.id.update_lastnames_input);
         emailInput = getView().findViewById(R.id.email_input_edit);
         passwordInput = getView().findViewById(R.id.password_input_edit);
         editUser = getView().findViewById(R.id.update_user_button);
+        cancel = getView().findViewById(R.id.cancel_update_button);
         progressBar = getView().findViewById(R.id.update_user_progress_bar);
 
-        userFragment = new UserFragment();
-
         emailInput.setFocusable(false);
+
+        db.collection("Users").document(MainActivity.currentUser.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User userData = documentSnapshot.toObject(User.class);
+                        nameInput.setText(userData.firstName);
+                        lastNameInput.setText(userData.lastName);
+                        emailInput.setText(userData.email);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        userFragment = new UserFragment();
         progressBar.setVisibility(View.GONE);
+
         editUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +119,7 @@ public class EditUserFragment extends Fragment {
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
-                    db.collection("Users").document(user.getUid())
+                    db.collection("Users").document(MainActivity.currentUser.getUid())
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -111,16 +129,17 @@ public class EditUserFragment extends Fragment {
                                     currentUser.lastName = lastnames;
                                     currentUser.email = email;
 
-                                    db.collection("Users").document(user.getUid())
+                                    db.collection("Users").document(MainActivity.currentUser.getUid())
                                             .set(currentUser)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    user.updatePassword(password)
+                                                    MainActivity.currentUser.updatePassword(password)
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
                                                                 public void onSuccess(Void aVoid) {
                                                                     progressBar.setVisibility(View.GONE);
+                                                                    Toast.makeText(getActivity(), getString(R.string.user_updated_label), Toast.LENGTH_LONG).show();
                                                                     setFragment(userFragment);
                                                                 }
                                                             })
@@ -147,6 +166,13 @@ public class EditUserFragment extends Fragment {
                                 }
                             });
                 }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(userFragment);
             }
         });
     }

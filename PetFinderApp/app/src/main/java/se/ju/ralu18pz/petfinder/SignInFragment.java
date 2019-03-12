@@ -37,7 +37,6 @@ public class SignInFragment extends Fragment {
     private String password;
     private boolean validForm;
 
-    private FirebaseAuth auth;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -60,7 +59,6 @@ public class SignInFragment extends Fragment {
         emailInput = getView().findViewById(R.id.email_input);
         passwordInput = getView().findViewById(R.id.password_input);
 
-        auth = FirebaseAuth.getInstance();
 
         homeAfterLoginFragment = new HomeAfterLoginFragment();
 
@@ -76,7 +74,7 @@ public class SignInFragment extends Fragment {
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
-                    auth.signInWithEmailAndPassword(email, password)
+                    MainActivity.auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {

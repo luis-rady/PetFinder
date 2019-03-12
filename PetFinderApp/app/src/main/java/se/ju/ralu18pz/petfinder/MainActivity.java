@@ -12,7 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+    // Public static variables
+    public static FirebaseAuth auth;
+    public static FirebaseUser currentUser;
+    public static String USER_CLASS = "Users";
+
     private static final int REQUEST_LOCATION = 123;
     public static BottomNavigationView mainNav;
     private FrameLayout mainFrame;
@@ -33,12 +40,13 @@ public class MainActivity extends AppCompatActivity {
     private UserFragment userFragment;
     private HomeAfterLoginFragment homeAfterLoginFragment;
 
-    private FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
         mainFrame = (FrameLayout) findViewById(R.id.main_frame);
         mainNav = (BottomNavigationView) findViewById(R.id.main_nav);
@@ -51,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
         userFragment = new UserFragment();
         homeAfterLoginFragment = new HomeAfterLoginFragment();
 
-        auth = FirebaseAuth.getInstance();
-        final FirebaseUser user = auth.getCurrentUser();
 
-        if(user == null) {
+        if(currentUser == null) {
             setFragment(homeFragment);
         }
         else {
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.home_button:
-                        if(user == null) {
+                        if(currentUser == null) {
                             setFragment(homeFragment);
                         }
                         else {
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         verifyLocationPermission();
                         return true;
                     case R.id.pets_button:
-                        if(user == null) {
+                        if(currentUser == null) {
                             setFragment(noAuthorizationFragment);
                         }
                         else {
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return true;
                     case R.id.profile_button:
-                        if(user == null) {
+                        if(currentUser == null) {
                             setFragment(profileFragment);
                         }
                         else {

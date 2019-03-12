@@ -56,7 +56,6 @@ public class SignUpFragment extends Fragment {
     private String password;
 
     private boolean validForm;
-    private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     public SignUpFragment() {
@@ -81,8 +80,8 @@ public class SignUpFragment extends Fragment {
         emailEditText = getView().findViewById(R.id.email_input_sign_up);
         passwordEditText = getView().findViewById(R.id.password_input_sign_up);
 
-        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
         progressBar.setVisibility(View.GONE);
 
@@ -98,17 +97,17 @@ public class SignUpFragment extends Fragment {
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
-                    auth.createUserWithEmailAndPassword(email, password)
+                    MainActivity.auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()) {
                                         User user = new User(name, lastnames, email);
-                                        db.collection("Users")
-                                                .add(user)
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        db.collection(MainActivity.USER_CLASS).document(task.getResult().getUser().getUid())
+                                                .set(user)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
-                                                    public void onSuccess(DocumentReference documentReference) {
+                                                    public void onSuccess(Void aVoid) {
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(getActivity(), getString(R.string.successful_sign_up), Toast.LENGTH_LONG).show();
                                                         setFragment(homeAfterLoginFragment);

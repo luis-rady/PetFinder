@@ -49,6 +49,8 @@ public class FoundPostPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
+
         postImage = getView().findViewById(R.id.post_found_image);
         postImage.setOnClickListener(new View.OnClickListener() {
             @Override

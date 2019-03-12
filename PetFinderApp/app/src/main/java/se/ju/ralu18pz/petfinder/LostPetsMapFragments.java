@@ -31,8 +31,6 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
     private Button reportPetButton;
     private PetLostSelectionFragment petLostSelectionFragment;
     private NoAuthorizationFragment noAuthorizationFragment;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
 
     static final LatLng current = new LatLng(57.778, 14.16);
     static final LatLng pet1 = new LatLng(57.778550, 14.161945);
@@ -67,18 +65,17 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
         petLostSelectionFragment = new PetLostSelectionFragment();
         noAuthorizationFragment = new NoAuthorizationFragment();
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
         reportPetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(user == null) {
-                  //  setFragment(noAuthorizationFragment);
-                //}
-                //else {
+                if(MainActivity.currentUser == null) {
+                  setFragment(noAuthorizationFragment);
+                }
+                else {
                     setFragment(petLostSelectionFragment);
-                //}
+                }
             }
         });
     }

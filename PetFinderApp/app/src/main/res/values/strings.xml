@@ -80,4 +80,7 @@
     <string name="date_label_lost">Date it was lost</string>
     <string name="where_label_lost">Where it was lost</string>
     <string name="circumstance_label">Circumstance:</string>
+    <string name="delete_account_label">Delete account</string>
+    <string name="user_delete_label">User deleted</string>
+    <string name="user_updated_label">User updated</string>
 </resources>

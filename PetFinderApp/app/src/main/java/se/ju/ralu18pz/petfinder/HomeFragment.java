@@ -28,6 +28,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
+
         infoText = (TextView) getView().findViewById(R.id.info_text);
         infoText.setMovementMethod(new ScrollingMovementMethod());
     }

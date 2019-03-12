@@ -10,9 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
@@ -24,6 +30,15 @@ public class UserFragment extends Fragment {
     private EditUserFragment editUserFragment;
     private Button logoutButton;
     private Button editInfo;
+    private Button deleteAccount;
+
+    private TextView name;
+    private TextView email;
+    private TextView petsCount;
+    private TextView lostPostsCount;
+    private TextView foundPostsCount;
+
+    private FirebaseFirestore db;
 
     public UserFragment() {
         // Required empty public constructor
@@ -44,8 +59,42 @@ public class UserFragment extends Fragment {
 
         logoutButton = getView().findViewById(R.id.logout_button);
         editInfo = getView().findViewById(R.id.edit_info_button);
+        deleteAccount = getView().findViewById(R.id.delete_account_button);
+
+        name = getView().findViewById(R.id.welcome_user_profile);
+        email = getView().findViewById(R.id.email_profile_text);
+        petsCount = getView().findViewById(R.id.pets_profile_text);
+        lostPostsCount = getView().findViewById(R.id.lost_posts_profile_text);
+        foundPostsCount = getView().findViewById(R.id.found_posts_profile_text);
+
         homeFragment = new HomeFragment();
         editUserFragment = new EditUserFragment();
+
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+
+        db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User currentUser = documentSnapshot.toObject(User.class);
+                        name.setText(currentUser.firstName + " " + currentUser.lastName);
+                        email.setText("Email: " + currentUser.email);
+                        petsCount.setText("Pets: " + currentUser.pets.size());
+                        lostPostsCount.setText("Lost posts made: " + currentUser.lostposts.size());
+                        foundPostsCount.setText("Found posts made: " + currentUser.foundposts.size());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
 
         editInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,13 +106,48 @@ public class UserFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+                MainActivity.auth.signOut();
                 Toast.makeText(getActivity(), getString(R.string.successful_sign_out), Toast.LENGTH_LONG).show();
                 setFragment(homeFragment);
                 MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
 
             }
         });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.collection("Users").document(MainActivity.currentUser.getUid())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                MainActivity.currentUser.delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(getActivity(), getString(R.string.user_delete_label), Toast.LENGTH_LONG).show();
+                                                setFragment(homeFragment);
+                                                MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+        });
+
     }
 
     private void setFragment(Fragment fragment) {

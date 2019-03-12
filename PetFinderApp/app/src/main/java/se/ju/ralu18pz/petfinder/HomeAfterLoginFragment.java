@@ -23,12 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * A simple {@link Fragment} subclass.
  */
 public class HomeAfterLoginFragment extends Fragment {
-    private String USER_CLASS = "Users";
-
-
     private TextView welcome;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
     private FirebaseFirestore db;
 
     public HomeAfterLoginFragment() {
@@ -47,18 +42,19 @@ public class HomeAfterLoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         welcome = getView().findViewById(R.id.welcome_user);
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
-        db.collection(USER_CLASS).document(user.getUid())
+
+        db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User currentUser = documentSnapshot.toObject(User.class);
-                        welcome.setText("Welcome" + currentUser.firstName + " " + currentUser.lastName);
+                        welcome.setText("Welcome " + currentUser.firstName);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -67,5 +63,7 @@ public class HomeAfterLoginFragment extends Fragment {
                         Toast.makeText(getActivity(), getString(R.string.error_title), Toast.LENGTH_LONG).show();
                     }
                 });
+
+
     }
 }

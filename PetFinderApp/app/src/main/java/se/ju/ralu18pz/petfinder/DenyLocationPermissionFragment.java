@@ -41,6 +41,7 @@ public class DenyLocationPermissionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
         permissionButton = getView().findViewById(R.id.permission_button);
         mapFragment = new MapFragment();
 
