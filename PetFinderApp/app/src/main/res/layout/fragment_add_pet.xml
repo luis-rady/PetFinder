@@ -13,19 +13,18 @@
             android:id="@+id/your_pets_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/your_pets"
-            android:textAlignment="center"
             android:layout_margin="20dp"
+            android:text="@string/add_pet_label"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
+        <ImageView
+            android:id="@+id/pet_image_register"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="30dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/profile_default" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,56 +32,314 @@
             android:orientation="vertical"
             android:layout_margin="20dp">
 
-            <EditText
-                android:id="@+id/text_name"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/pet_name_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pet_name_label"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/pet_name_input_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@string/hint_email"
+                    android:hint="@string/pet_name_register"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Name of Pet"
-                android:inputType="textPersonName"
-                android:layout_marginBottom="20dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-            <EditText
-                android:id="@+id/text_age"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/type_label"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="15dp"/>
+
+                    <Spinner
+                        android:id="@+id/register_spinner_pet_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/Pets_types"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sex_label"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="15dp"/>
+
+                    <Spinner
+                        android:id="@+id/register_spinner_pet_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/pet_sex" />
+
+                    <!-- String text = mySpinner.getSelectedItem().toString(); -->
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Age of Pet"
-                android:inputType="numberSigned"
-                android:layout_marginBottom="20dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-            <Spinner
-                android:id="@+id/spinner_pet_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/Pets_types"
-                android:layout_marginBottom="20dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="@string/neutered_label"
+                        android:textAlignment="center"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/register_spinner_pet_neutered"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/pet_neutered" />
+
+                    <!-- String text = mySpinner.getSelectedItem().toString(); -->
+                </LinearLayout>
 
 
-            <EditText
-                android:id="@+id/text_desc"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sex_label"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="15dp"/>
+
+                    <Spinner
+                        android:id="@+id/register_spinner_pet_collar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/pet_collar" />
+                    <!-- String text = mySpinner.getSelectedItem().toString(); -->
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Description About Pet"
-                android:inputType="textPersonName"
-                android:layout_marginBottom="20dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/years_label"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/pet_years_input_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="@string/hint_email"
+                        android:hint="@string/years_label"
+                        android:inputType="number" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/months_label"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/pet_months_input_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="@string/hint_email"
+                        android:hint="@string/months_label"
+                        android:inputType="number" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/color_label"
+                    android:textAlignment="center"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+
+                        <CheckBox
+                            android:id="@+id/register_black_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/black_label"
+                            android:layout_marginEnd="20dp"/>
+
+                        <CheckBox
+                            android:id="@+id/register_brown_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/brown_label"
+                            android:layout_marginEnd="20dp"/>
+
+                        <CheckBox
+                            android:id="@+id/register_white_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/white_label"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="10dp">
+
+                        <CheckBox
+                            android:id="@+id/register_golden_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/golden_label"
+                            android:layout_marginEnd="20dp"/>
+
+                        <CheckBox
+                            android:id="@+id/register_grey_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/grey_label"
+                            android:layout_marginEnd="20dp"/>
+
+                        <CheckBox
+                            android:id="@+id/register_tan_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tan_label"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description_label"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/pet_description_input_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:autofillHints="@string/hint_email"
+                    android:gravity="top"
+                    android:hint="@string/description_label"
+                    android:inputType="text|textMultiLine" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/cancel_register_pet_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/error"
+                    android:text="@string/cancel_button"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/register_post_pet_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/buttonsColor"
+                    android:text="@string/register_label"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
-
-
-
-
     </LinearLayout>
-
-
-    <!--
-
-        <Spinner
-            android:id="@+id/spinner_pet_status"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:entries="@array/Pets_Status" />
-
-    -->
-
 </ScrollView>

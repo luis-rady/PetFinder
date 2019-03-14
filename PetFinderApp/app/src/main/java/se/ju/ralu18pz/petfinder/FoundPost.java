@@ -2,11 +2,11 @@ package se.ju.ralu18pz.petfinder;
 
 public class FoundPost {
 
-    String postImage, petType, petSex, petNeutered, petCollar, petStatus, petSituation, contactName, contactPhone, contactExtension;
+    String postImage, petType, petSex, petNeutered, petCollar, petStatus,
+            petSituation, contactName, contactPhone, contactExtension, userId;
     String[] petColors;
     int yearFound, monthFound, dayFound;
     double longitude, latitude;
-    User user;
 
 
     public FoundPost() {
@@ -16,7 +16,7 @@ public class FoundPost {
     public FoundPost(String postImage, String petType, String petSex, String petNeutered,
                      String petCollar, String petStatus, String petSituation, String contactName,
                      String contactPhone, String contactExtension, String[] petColors,
-                     int yearFound, int monthFound, int dayFound, double longitude, double latitude, User user) {
+                     int yearFound, int monthFound, int dayFound, double longitude, double latitude, String userId) {
 
         this.postImage = postImage;
         this.petType = petType;
@@ -34,6 +34,6 @@ public class FoundPost {
         this.dayFound = dayFound;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.user = user;
+        this.userId = userId;
     }
 }

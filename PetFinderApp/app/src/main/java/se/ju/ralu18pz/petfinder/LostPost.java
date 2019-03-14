@@ -1,24 +1,24 @@
 package se.ju.ralu18pz.petfinder;
 
-public class LostPost {
-    Pet petLost;
-    User user;
+public class LostPost { ;
     int year, month, day;
     double longitude, latitude;
-    String circumstance;
+    String circumstance, petId, userId;
 
     public LostPost() {
 
     }
 
-    public LostPost(int year, int month, int day, double longitude, double latitude, String circumstance, Pet pet, User user) {
+    public LostPost(int year, int month, int day, double longitude, double latitude,
+                    String circumstance, String petId, String userId) {
+
         this.year = year;
         this.month = month;
         this.day = day;
         this.longitude = longitude;
         this.latitude = latitude;
         this.circumstance = circumstance;
-        this.user = user;
-        petLost = pet;
+        this.petId = petId;
+        this.userId = userId;
     }
 }

@@ -43,7 +43,8 @@ public class LostPetPostFragment extends Fragment implements OnMapReadyCallback 
     private TextView lostDate;
     private int markerCount;
 
-    private Location locationClient;
+
+    private MarkerOptions petMarker;
 
     private DenyLocationPermissionFragment denyLocationPermissionFragment;
 
@@ -132,49 +133,15 @@ public class LostPetPostFragment extends Fragment implements OnMapReadyCallback 
             public void onMapClick(LatLng point) {
                 //map.clear();
                 if(markerCount == 0) {
-                    mMap.addMarker(new MarkerOptions().position(point));
+                    petMarker = new MarkerOptions().position(point);
+                    mMap.addMarker(petMarker);
                     markerCount++;
                 }
-            }
-        });
-
-        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-            // Use default InfoWindow frame
-            @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
-            }
-
-            // Defines the contents of the InfoWindow
-            @Override
-            public View getInfoContents(Marker arg0) {
-                View v = null;
-                try {
-
-                    // Getting view from the layout file info_window_layout
-                    v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
-
-                    // Getting reference to the TextView to set latitude
-
-                    TextView addressTxt = (TextView) v.findViewById(R.id.addressTxt);
-                    addressTxt.setText(arg0.getTitle());
-
-                } catch (Exception ev) {
-                    System.out.print(ev.getMessage());
+                else {
+                    mMap.clear();
+                    petMarker.position(point);
+                    mMap.addMarker(petMarker);
                 }
-
-                return v;
-
-            }
-        });
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                PetInfoFragment petInfoFragment;
-                petInfoFragment = new PetInfoFragment();
-                setFragment(petInfoFragment);
             }
         });
     }

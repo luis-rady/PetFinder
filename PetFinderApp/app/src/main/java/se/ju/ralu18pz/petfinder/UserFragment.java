@@ -82,9 +82,9 @@ public class UserFragment extends Fragment {
                         User currentUser = documentSnapshot.toObject(User.class);
                         name.setText(currentUser.firstName + " " + currentUser.lastName);
                         email.setText("Email: " + currentUser.email);
-                        petsCount.setText("Pets: " + currentUser.pets.size());
-                        lostPostsCount.setText("Lost posts made: " + currentUser.lostposts.size());
-                        foundPostsCount.setText("Found posts made: " + currentUser.foundposts.size());
+                        //petsCount.setText("Pets: " + currentUser.pets.size());
+                        //lostPostsCount.setText("Lost posts made: " + currentUser.lostposts.size());
+                        //foundPostsCount.setText("Found posts made: " + currentUser.foundposts.size());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

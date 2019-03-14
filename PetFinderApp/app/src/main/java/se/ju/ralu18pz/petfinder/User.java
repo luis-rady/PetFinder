@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 public class User {
     String firstName, lastName, email;
+    /*
     ArrayList<Pet> pets;
     ArrayList<LostPost> lostposts;
     ArrayList<FoundPost> foundposts;
-
+    */
 
     public User() {
 
@@ -17,11 +18,12 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        pets = new ArrayList<Pet>();
-        lostposts = new ArrayList<LostPost>();
-        foundposts = new ArrayList<FoundPost>();
+        //pets = new ArrayList<Pet>();
+        //lostposts = new ArrayList<LostPost>();
+        //oundposts = new ArrayList<FoundPost>();
     }
 
+    /*
     public User(String firstName, String lastName, String email, ArrayList<Pet> pets, ArrayList<LostPost> lostposts, ArrayList<FoundPost> foundposts) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,5 +32,7 @@ public class User {
         this.lostposts = lostposts;
         this.foundposts = foundposts;
     }
+
+    */
 
 }
