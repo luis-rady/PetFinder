@@ -23,9 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     // Public static variables
+    public static String USER_CLASS = "Users";
+    public static String PET_CLASS = "Pets";
     public static FirebaseAuth auth;
     public static FirebaseUser currentUser;
-    public static String USER_CLASS = "Users";
+
 
     private static final int REQUEST_LOCATION = 123;
     public static BottomNavigationView mainNav;

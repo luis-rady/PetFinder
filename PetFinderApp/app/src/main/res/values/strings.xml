@@ -87,4 +87,5 @@
     <string name="months_label">Months</string>
     <string name="years_label">Years</string>
     <string name="register_label">Register</string>
+    <string name="pet_register_success">Pet register successfully</string>
 </resources>
