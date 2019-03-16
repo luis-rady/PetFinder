@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,11 +21,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -36,24 +35,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AddPetFragment extends Fragment {
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class EditPetFragment extends Fragment {
+
     private int REQUEST_CAMERA = 1;
     private int SELECT_FILE = 0;
     private int WRITE_EXTERNAL = 2;
+
+    private Pet currentPet = PetInfoFragment.selectedPet;
 
     private ImageView petImage;
     private EditText petNameInput;
@@ -74,8 +83,7 @@ public class AddPetFragment extends Fragment {
     private CheckBox tanColor;
     private TextView checkboxError;
 
-    private Button registerPet;
-    private Button cancel;
+    private Button updatePet;
 
     private PetsFragment petsFragment;
 
@@ -85,12 +93,12 @@ public class AddPetFragment extends Fragment {
     private Uri selectedImageUri;
     private Uri file;
 
-    //private int color_counter = 0;
     private String name, type, sex, neutered, collar, years, months, description;
     private ArrayList<String> colors;
     private boolean validForm;
 
-    public AddPetFragment() {
+
+    public EditPetFragment() {
         // Required empty public constructor
     }
 
@@ -99,7 +107,7 @@ public class AddPetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_pet, container, false);
+        return inflater.inflate(R.layout.fragment_edit_pet, container, false);
     }
 
     @Override
@@ -113,85 +121,19 @@ public class AddPetFragment extends Fragment {
         storageReference = storage.getReference();
 
         setInputs();
-        selectedImageUri = Uri.parse("android.resource://" + getContext().getPackageName() +  "/" + R.drawable.profile_default);
-        Picasso.with(getActivity())
-                .load(selectedImageUri)
-                .fit()
-                .centerCrop()
-                .into(petImage);
-        petImage.setImageURI(selectedImageUri);
+        setInputValues();
 
-        progressBar.setVisibility(View.GONE);
-        checkboxError.setVisibility(View.GONE);
-        registerPet.setOnClickListener(new View.OnClickListener() {
+        updatePet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = petNameInput.getText().toString().trim();
-                type = typePetSpinner.getSelectedItem().toString().trim();
-                sex = sexPetSpinner.getSelectedItem().toString().trim();
-                neutered = neuteredPetSpinner.getSelectedItem().toString().trim();
-                collar = collarPetSpinner.getSelectedItem().toString().trim();
-                years = yearsPetInput.getText().toString().trim();
-                months = monthsPetInput.getText().toString().trim();
-                description = descriptionPetInput.getText().toString().trim();
-                colors = new ArrayList<String>();
-
-                if(blackColor.isChecked()) {
-                    colors.add(blackColor.getText().toString());
-                }
-                else if(colors.contains(blackColor.getText().toString())) {
-                    colors.remove(blackColor.getText().toString());
-                }
-
-                if(brownColor.isChecked()) {
-                    colors.add(brownColor.getText().toString());
-                }
-                else if(colors.contains(brownColor.getText().toString()))  {
-                    colors.remove(brownColor.getText().toString());
-                }
-
-                if(whiteColor.isChecked()) {
-                    colors.add(whiteColor.getText().toString());
-                }
-                else if(colors.contains(whiteColor.getText().toString())){
-                    colors.remove(whiteColor.getText().toString());
-                }
-
-                if(greyColor.isChecked()) {
-                    colors.add(greyColor.getText().toString());
-                }
-                else if(colors.contains(greyColor.getText().toString())) {
-                    colors.remove(greyColor.getText().toString());
-                }
-
-                if(goldenColor.isChecked()) {
-                    colors.add(goldenColor.getText().toString());
-                }
-                else if(colors.contains(goldenColor.getText().toString())) {
-                    colors.remove(goldenColor.getText().toString());
-                }
-
-                if(tanColor.isChecked()) {
-                    colors.add(tanColor.getText().toString());
-                }
-                else if(colors.contains(tanColor.getText().toString())){
-                    colors.remove(tanColor.getText().toString());
-                }
-
-                validForm = formValidation(name, years, months, colors);
+                getValuesOfInputs();
+                validForm = formValidation();
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
-                    uploadData();
+                    updateData();
+                    eraseExistentPet();
                 }
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                petsFragment = new PetsFragment();
-                setFragment(petsFragment);
             }
         });
 
@@ -204,37 +146,82 @@ public class AddPetFragment extends Fragment {
         });
     }
 
-    private void uploadData() {
+    private void eraseExistentPet() {
+        if(selectedImageUri.toString() != currentPet.petImageURL) {
+            final StorageReference pictureRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentPet.petImageURL);
+            pictureRef.delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            uploadPet();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+        else {
+            db.collection(MainActivity.PET_CLASS).document(currentPet.name)
+                    .set(currentPet)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), getString(R.string.pet_updated), Toast.LENGTH_LONG).show();
+                            petsFragment = new PetsFragment();
+                            setFragment(petsFragment);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+    }
+
+    private void uploadPet() {
         final StorageReference userPetsRef = storageReference.child("users/" + MainActivity.currentUser.getUid() + "/pets/" + System.currentTimeMillis() + "." + getFileExtension(selectedImageUri));
         userPetsRef.putFile(selectedImageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                        userPetsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Pet pet = new Pet(taskSnapshot.getMetadata().getName(), name, type, sex, description, uri.toString(), MainActivity.currentUser.getUid(), colors, neutered, collar, years, months);
-                                db.collection(MainActivity.PET_CLASS).document(pet.name)
-                                        .set(pet)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                progressBar.setVisibility(View.GONE);
-                                                Toast.makeText(getActivity(), getString(R.string.pet_register_success), Toast.LENGTH_LONG).show();
-                                                petsFragment = new PetsFragment();
-                                                setFragment(petsFragment);
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                            }
-                                        });
+                        userPetsRef.getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        currentPet.id = taskSnapshot.getMetadata().getName();
+                                        currentPet.petImageURL = uri.toString();
 
-                            }
-                        });
-
+                                        db.collection(MainActivity.PET_CLASS).document(currentPet.name)
+                                                .set(currentPet)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        Toast.makeText(getActivity(), getString(R.string.pet_updated), Toast.LENGTH_LONG).show();
+                                                        petsFragment = new PetsFragment();
+                                                        setFragment(petsFragment);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -243,9 +230,22 @@ public class AddPetFragment extends Fragment {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
     }
 
-    private boolean formValidation(String name, String years, String months, ArrayList<String> colors) {
+    private void updateData() {
+        currentPet.name = name;
+        currentPet.type = type;
+        currentPet.sex = sex;
+        currentPet.neutered = neutered;
+        currentPet.colors = colors;
+        currentPet.collar = collar;
+        currentPet.description = description;
+        currentPet.years = years;
+        currentPet.months = months;
+    }
+
+    private boolean formValidation() {
         boolean valid = true;
 
         if(name == "" || name.length() == 0) {
@@ -279,6 +279,140 @@ public class AddPetFragment extends Fragment {
         }
 
         return true;
+    }
+
+    private void getValuesOfInputs() {
+        name = petNameInput.getText().toString().trim();
+        type = typePetSpinner.getSelectedItem().toString().trim();
+        sex = sexPetSpinner.getSelectedItem().toString().trim();
+        neutered = neuteredPetSpinner.getSelectedItem().toString().trim();
+        collar = collarPetSpinner.getSelectedItem().toString().trim();
+        years = yearsPetInput.getText().toString().trim();
+        months = monthsPetInput.getText().toString().trim();
+        description = descriptionPetInput.getText().toString().trim();
+        colors = new ArrayList<String>();
+
+        if(blackColor.isChecked()) {
+            colors.add(blackColor.getText().toString());
+        }
+        else if(colors.contains(blackColor.getText().toString())) {
+            colors.remove(blackColor.getText().toString());
+        }
+
+        if(brownColor.isChecked()) {
+            colors.add(brownColor.getText().toString());
+        }
+        else if(colors.contains(brownColor.getText().toString()))  {
+            colors.remove(brownColor.getText().toString());
+        }
+
+        if(whiteColor.isChecked()) {
+            colors.add(whiteColor.getText().toString());
+        }
+        else if(colors.contains(whiteColor.getText().toString())){
+            colors.remove(whiteColor.getText().toString());
+        }
+
+        if(greyColor.isChecked()) {
+            colors.add(greyColor.getText().toString());
+        }
+        else if(colors.contains(greyColor.getText().toString())) {
+            colors.remove(greyColor.getText().toString());
+        }
+
+        if(goldenColor.isChecked()) {
+            colors.add(goldenColor.getText().toString());
+        }
+        else if(colors.contains(goldenColor.getText().toString())) {
+            colors.remove(goldenColor.getText().toString());
+        }
+
+        if(tanColor.isChecked()) {
+            colors.add(tanColor.getText().toString());
+        }
+        else if(colors.contains(tanColor.getText().toString())){
+            colors.remove(tanColor.getText().toString());
+        }
+
+    }
+
+
+    private void setInputs() {
+        petImage = getView().findViewById(R.id.pet_image_edit);
+        petNameInput = getView().findViewById(R.id.pet_name_input_edit);
+        typePetSpinner = getView().findViewById(R.id.edit_spinner_pet_type);
+        sexPetSpinner = getView().findViewById(R.id.edit_spinner_pet_sex);
+        neuteredPetSpinner = getView().findViewById(R.id.edit_spinner_pet_neutered);
+        collarPetSpinner = getView().findViewById(R.id.edit_spinner_pet_collar);
+        yearsPetInput = getView().findViewById(R.id.pet_years_input_edit);
+        monthsPetInput = getView().findViewById(R.id.pet_months_input_edit);
+        descriptionPetInput = getView().findViewById(R.id.pet_description_input_edit);
+
+        progressBar = getView().findViewById(R.id.edit_pet_progress_bar);
+
+        blackColor = getView().findViewById(R.id.edit_black_color);
+        brownColor = getView().findViewById(R.id.edit_brown_color);
+        whiteColor = getView().findViewById(R.id.edit_white_color);
+        goldenColor = getView().findViewById(R.id.edit_golden_color);
+        greyColor = getView().findViewById(R.id.edit_grey_color);
+        tanColor = getView().findViewById(R.id.edit_tan_color);
+        checkboxError = getView().findViewById(R.id.checkboxes_error_edit);
+
+        updatePet = getView().findViewById(R.id.pet_edit_info_button);
+    }
+
+    private void setInputValues() {
+        selectedImageUri = Uri.parse(currentPet.petImageURL);
+        Picasso.with(getContext())
+                .load(currentPet.petImageURL)
+                .fit()
+                .centerCrop()
+                .into(petImage);
+        petImage.setImageURI(selectedImageUri);
+
+        petNameInput.setText(currentPet.name);
+
+        ArrayAdapter arrayAdapter = (ArrayAdapter) typePetSpinner.getAdapter();
+        typePetSpinner.setSelection(arrayAdapter.getPosition(currentPet.type));
+
+        arrayAdapter = (ArrayAdapter) sexPetSpinner.getAdapter();
+        sexPetSpinner.setSelection(arrayAdapter.getPosition(currentPet.sex));
+
+        arrayAdapter = (ArrayAdapter) neuteredPetSpinner.getAdapter();
+        neuteredPetSpinner.setSelection((arrayAdapter.getPosition(currentPet.neutered)));
+
+        arrayAdapter = (ArrayAdapter) collarPetSpinner.getAdapter();
+        collarPetSpinner.setSelection(arrayAdapter.getPosition(currentPet.collar));
+
+        descriptionPetInput.setText(currentPet.description);
+        yearsPetInput.setText(currentPet.years);
+        monthsPetInput.setText(currentPet.months);
+
+        for(int i = 0; i < currentPet.colors.size(); i++) {
+            switch(currentPet.colors.get(i)) {
+                case "Black":
+                    blackColor.setChecked(true);
+                    break;
+                case "Brown":
+                    brownColor.setChecked(true);
+                    break;
+                case "White":
+                    whiteColor.setChecked(true);
+                    break;
+                case "Grey":
+                    greyColor.setChecked(true);
+                    break;
+                case "Golden":
+                    goldenColor.setChecked(true);
+                    break;
+                    default:
+                        tanColor.setChecked(true);
+
+            }
+        }
+
+        progressBar.setVisibility(View.GONE);
+        checkboxError.setVisibility(View.GONE);
     }
 
     private void SelectImage() {
@@ -340,6 +474,7 @@ public class AddPetFragment extends Fragment {
         }
     }
 
+
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -352,42 +487,13 @@ public class AddPetFragment extends Fragment {
                         .into(petImage);
                 petImage.setImageURI(file);
                 selectedImageUri = file;
-
             }
             else if(requestCode == SELECT_FILE) {
                 selectedImageUri = data.getData();
-                Picasso.with(getActivity())
-                        .load(selectedImageUri)
-                        .fit()
-                        .centerCrop()
-                        .into(petImage);
+                Picasso.with(getActivity()).load(selectedImageUri).into(petImage);
                 petImage.setImageURI(selectedImageUri);
             }
         }
-    }
-
-    private void setInputs() {
-        petImage = getView().findViewById(R.id.pet_image_register);
-        petNameInput = getView().findViewById(R.id.pet_name_input_register);
-        typePetSpinner = getView().findViewById(R.id.register_spinner_pet_type);
-        sexPetSpinner = getView().findViewById(R.id.register_spinner_pet_sex);
-        neuteredPetSpinner = getView().findViewById(R.id.register_spinner_pet_neutered);
-        collarPetSpinner = getView().findViewById(R.id.register_spinner_pet_collar);
-        yearsPetInput = getView().findViewById(R.id.pet_years_input_register);
-        monthsPetInput = getView().findViewById(R.id.pet_months_input_register);
-        descriptionPetInput = getView().findViewById(R.id.pet_description_input_register);
-
-        blackColor = getView().findViewById(R.id.register_black_color);
-        brownColor = getView().findViewById(R.id.register_brown_color);
-        whiteColor = getView().findViewById(R.id.register_white_color);
-        goldenColor = getView().findViewById(R.id.register_golden_color);
-        greyColor = getView().findViewById(R.id.register_grey_color);
-        tanColor = getView().findViewById(R.id.register_tan_color);
-        checkboxError = getView().findViewById(R.id.checkboxes_error);
-
-        registerPet = getView().findViewById(R.id.register_post_pet_button);
-        cancel = getView().findViewById(R.id.cancel_register_pet_button);
-        progressBar = getView().findViewById(R.id.register_pet_progress_bar);
     }
 
     private void galleryIntent() {
@@ -397,7 +503,6 @@ public class AddPetFragment extends Fragment {
     }
 
     private void cameraIntent() {
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         requestWritingPermission();
         file = getOutputMediaFileUri(WRITE_EXTERNAL);
@@ -442,4 +547,5 @@ public class AddPetFragment extends Fragment {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
+
 }

@@ -14,70 +14,53 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/your_pets_header"
+            android:id="@+id/pet_name_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/missing_pet"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/pet_image_info"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/profile_default"
-                android:layout_gravity="center"/>
+            android:layout_margin="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
+                    android:id="@+id/pet_type_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
+                    android:id="@+id/pet_sex_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -85,137 +68,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
+                    android:id="@+id/pet_description_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
+                    android:id="@+id/pet_age_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
                     android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/pet_name_label"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hello_blank_fragment"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"/>
 
             </LinearLayout>
 
@@ -225,19 +101,70 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/specific_pet_map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                <TextView
+                    android:id="@+id/pet_neutered_info"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    tools:context=".MapsActivity" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank_fragment"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
+                <TextView
+                    android:id="@+id/pet_collar_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank_fragment"
+                    android:textSize="18sp" />
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/pet_colors_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank_fragment"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/edit_info_pet_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/buttonsColor"
+                android:text="@string/edit_info_button"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/delete_pet_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/error"
+                android:text="@string/delete_pet"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>

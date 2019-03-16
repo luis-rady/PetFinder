@@ -13,12 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 /**
@@ -82,7 +85,23 @@ public class UserFragment extends Fragment {
                         User currentUser = documentSnapshot.toObject(User.class);
                         name.setText(currentUser.firstName + " " + currentUser.lastName);
                         email.setText("Email: " + currentUser.email);
-                        //petsCount.setText("Pets: " + currentUser.pets.size());
+                        db.collection(MainActivity.PET_CLASS)
+                                .whereEqualTo("userId", MainActivity.currentUser.getUid())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.isSuccessful()) {
+                                            petsCount.setText("Pets: " + String.valueOf(task.getResult().size()));
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                         //lostPostsCount.setText("Lost posts made: " + currentUser.lostposts.size());
                         //foundPostsCount.setText("Found posts made: " + currentUser.foundposts.size());
                     }
@@ -117,7 +136,7 @@ public class UserFragment extends Fragment {
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("Users").document(MainActivity.currentUser.getUid())
+                db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

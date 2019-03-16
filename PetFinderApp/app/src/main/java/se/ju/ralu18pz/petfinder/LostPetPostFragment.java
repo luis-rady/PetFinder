@@ -37,6 +37,7 @@ import java.util.Calendar;
  * A simple {@link Fragment} subclass.
  */
 public class LostPetPostFragment extends Fragment implements OnMapReadyCallback {
+    public static Pet lostPetSelected;
     private static final int REQUEST_LOCATION = 246;
     private GoogleMap mMap;
     SupportMapFragment lostPostMapFragment;

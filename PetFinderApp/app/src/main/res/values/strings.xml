@@ -88,4 +88,7 @@
     <string name="years_label">Years</string>
     <string name="register_label">Register</string>
     <string name="pet_register_success">Pet register successfully</string>
+    <string name="delete_pet">Delete pet</string>
+    <string name="pet_updated">Pet updated</string>
+
 </resources>
