@@ -3,20 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PetInfoPostFragment">
+    tools:context=".PetInfoFoundPostFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/pet_lost_window_name"
+            android:id="@+id/pet_found_window_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/missing_pet"
+            android:text="@string/found_pet_label"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="25sp" />
@@ -28,7 +27,7 @@
             android:layout_margin="20dp">
 
             <ImageView
-                android:id="@+id/pet_lost_window_image"
+                android:id="@+id/pet_found_window_image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"/>
@@ -45,7 +44,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_owner"
+                        android:id="@+id/pet_found_window_creator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -60,7 +59,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_type"
+                        android:id="@+id/pet_found_window_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -75,7 +74,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_sex"
+                        android:id="@+id/pet_found_window_sex"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -92,7 +91,7 @@
 
 
                     <TextView
-                        android:id="@+id/pet_lost_window_age"
+                        android:id="@+id/pet_found_window_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -107,7 +106,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_neutered"
+                        android:id="@+id/pet_found_window_neutered"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -122,7 +121,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_colors"
+                        android:id="@+id/pet_found_window_colors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -137,7 +136,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_collar"
+                        android:id="@+id/pet_found_window_collar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -152,7 +151,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_description"
+                        android:id="@+id/pet_found_window_description"
                         android:layout_width="match_parent"
                         android:layout_height="150sp"
                         android:text="@string/hello_blank_fragment"
@@ -167,7 +166,22 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_date"
+                        android:id="@+id/pet_found_window_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hello_blank_fragment"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/pet_found_window_situation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -184,7 +198,7 @@
 
                     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
-                        android:id="@+id/pet_lost_window_map"
+                        android:id="@+id/pet_found_window_map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
@@ -198,7 +212,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_contact_name"
+                        android:id="@+id/pet_found_window_contact_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -214,7 +228,7 @@
                     android:layout_marginBottom="40dp">
 
                     <TextView
-                        android:id="@+id/pet_lost_window_contact_phone"
+                        android:id="@+id/pet_found_window_contact_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -222,7 +236,7 @@
                         android:layout_marginTop="20dp" />
 
                     <TextView
-                        android:id="@+id/pet_lost_window_contact_extension"
+                        android:id="@+id/pet_found_window_contact_extension"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hello_blank_fragment"
@@ -236,5 +250,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

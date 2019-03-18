@@ -1,17 +1,14 @@
 package se.ju.ralu18pz.petfinder;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -47,8 +44,7 @@ public class PetsImageAdapter extends RecyclerView.Adapter<PetsImageAdapter.Imag
                 .centerCrop()
                 .into(imageViewHolder.petImage);
 
-
-        imageViewHolder.petImage.setOnClickListener(new View.OnClickListener() {
+        imageViewHolder.petLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(action == 0) {
@@ -82,6 +78,7 @@ public class PetsImageAdapter extends RecyclerView.Adapter<PetsImageAdapter.Imag
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView petName, petDescription;
         public ImageView petImage;
+        public LinearLayout petLinearLayout;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -89,6 +86,7 @@ public class PetsImageAdapter extends RecyclerView.Adapter<PetsImageAdapter.Imag
             petName = itemView.findViewById(R.id.pet_name_list);
             petDescription = itemView.findViewById(R.id.pet_description_list);
             petImage = itemView.findViewById(R.id.pet_image_list);
+            petLinearLayout = itemView.findViewById(R.id.pet_card_info);
 
         }
     }

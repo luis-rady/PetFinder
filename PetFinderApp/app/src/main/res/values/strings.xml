@@ -7,7 +7,6 @@
     <string name="nav_pets">Pets</string>
     <string name="nav_profile">Profile</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_title" translatable="false">PetFinder</string>
     <string name="home_app_info">We know you love your pets and when they get lost is something harmful for us and for the pet and sometimes search becomes difficult and expensive,
@@ -90,5 +89,13 @@
     <string name="pet_register_success">Pet register successfully</string>
     <string name="delete_pet">Delete pet</string>
     <string name="pet_updated">Pet updated</string>
+    <string name="post_successful">Post successfully created</string>
+    <string name="change_status">Change status</string>
+    <string name="pet_delete_message">Pet deleted</string>
+    <string name="see_losts_posts">See lost posts</string>
+    <string name="see_found_posts">See found posts</string>
+    <string name="delete_post_button">Delete post</string>
+    <string name="post_deleted_successfull">Post deleted successfully</string>
+    <string name="found_pet_label">Found Pet</string>
 
 </resources>

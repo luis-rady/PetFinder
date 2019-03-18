@@ -32,52 +32,51 @@ import com.squareup.picasso.Picasso;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback {
+public class PetInfoFoundPostFragment extends Fragment implements OnMapReadyCallback {
 
-    public static Pet petWindowSelected;
-    public static LostPost lostWindowPost;
+    public static FoundPost foundPostWindowSelected;
 
     private LatLng petLocation;
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
 
-    private TextView owner;
-    private TextView petName;
-    private TextView petType;
-    private TextView petSex;
-    private TextView petColors;
-    private TextView petCollar;
-    private TextView petDescription;
-    private TextView petAge;
-    private TextView petDate;
-    private TextView petNeutered;
-    private ImageView petImage;
+    private TextView createdBy;
+    private TextView postStatus;
+    private TextView postSituation;
+    private TextView postType;
+    private TextView postSex;
+    private TextView postColors;
+    private TextView postCollar;
+    private TextView postDescription;
+    private TextView postDate;
+    private TextView postNeutered;
+    private ImageView postImage;
     private TextView contactName;
     private TextView contactPhone;
     private TextView contactExtension;
 
     private DenyLocationPermissionFragment denyLocationPermissionFragment;
 
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
 
-
-    public PetInfoPostFragment() {
+    public PetInfoFoundPostFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_pet_info_post, container, false);
+        View v = inflater.inflate(R.layout.fragment_pet_info_found_post, container, false);
 
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.pet_lost_window_map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.pet_found_window_map);
         if(mapFragment == null) {
             FragmentManager fm= getFragmentManager();
             FragmentTransaction ft= fm.beginTransaction();
             mapFragment = SupportMapFragment.newInstance();
-            ft.replace(R.id.pet_lost_window_map, mapFragment).commit();
+            ft.replace(R.id.pet_found_window_map, mapFragment).commit();
         }
 
         mapFragment.getMapAsync(this);
@@ -93,47 +92,48 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
     }
 
     private void setValues() {
-        setOwner();
-        petName.setText(petWindowSelected.name);
-        Picasso.with(getActivity())
-                .load(Uri.parse(petWindowSelected.petImageURL))
+        setContentCreator();
+        Picasso.with(getContext())
+                .load(Uri.parse(foundPostWindowSelected.postImage))
                 .fit()
                 .centerCrop()
-                .into(petImage);
+                .into(postImage);
 
-        petType.setText("Type of pet: " + petWindowSelected.type);
-        petSex.setText("Sex of the pet: " + petWindowSelected.sex);
-        petCollar.setText("Pet has collar: " + petWindowSelected.collar);
-        petDescription.setText("Description: " + petWindowSelected.description);
-        petAge.setText("Pet has " + petWindowSelected.years + " years and " + petWindowSelected.months + " months");
-        petNeutered.setText("Pet is neutered: " + petWindowSelected.neutered);
-        petDate.setText("It was lost on " + lostWindowPost.date);
-        contactName.setText("If you found it, contact: " + lostWindowPost.contactName);
-        contactPhone.setText("Phone: " + lostWindowPost.contactPhone);
-        contactExtension.setText("with extension: " + lostWindowPost.contactExtension);
+        postStatus.setText("The pet is: " + foundPostWindowSelected.petStatus);
+        postSituation.setText("The situation of the pet is: " + foundPostWindowSelected.petSituation);
+        postType.setText("The pet is a: " + foundPostWindowSelected.petType);
+        postSex.setText("The sex of the pet is: " + foundPostWindowSelected.petSex);
+        postCollar.setText("The pet has a collar: " +foundPostWindowSelected.petCollar);
+        postDescription.setText("Description: " + foundPostWindowSelected.description);
+        postDate.setText("Day it was found: " + foundPostWindowSelected.date);
+        postNeutered.setText("The pet is neutered: " + foundPostWindowSelected.petNeutered);
+        contactName.setText("If is your pet contact: " + foundPostWindowSelected.contactName);
+        contactPhone.setText("Phone: " + foundPostWindowSelected.contactPhone);
+        contactExtension.setText(" with extension: " + foundPostWindowSelected.contactExtension);
 
         String col = "";
-        for (int i = 0; i < petWindowSelected.colors.size(); i++) {
-            if(i == petWindowSelected.colors.size() -1) {
-                col = col + petWindowSelected.colors.get(i);
+        for (int i = 0; i < foundPostWindowSelected.petColors.size(); i++) {
+            if(i == foundPostWindowSelected.petColors.size() -1) {
+                col = col + foundPostWindowSelected.petColors.get(i);
             }
             else {
-                col = col + petWindowSelected.colors.get(i) + " - ";
+                col = col + foundPostWindowSelected.petColors.get(i) + " - ";
             }
         }
 
-        petColors.setText("Colors of the pet: " + col);
+        postColors.setText("Colors of the pet: " + col);
     }
 
-    private void setOwner() {
+    private void setContentCreator() {
         db.collection(MainActivity.USER_CLASS)
-                .document(petWindowSelected.userId)
+                .document(foundPostWindowSelected.userId)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User user = documentSnapshot.toObject(User.class);
-                        owner.setText("The owner of the pet is: " + user.firstName + " " + user.lastName);
+
+                        createdBy.setText("Post created by: " + user.firstName + " " + user.lastName);
                     }
                 });
     }
@@ -142,20 +142,21 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
         MainActivity.currentUser = MainActivity.auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        petName = getView().findViewById(R.id.pet_lost_window_name);
-        petImage = getView().findViewById(R.id.pet_lost_window_image);
-        petType = getView().findViewById(R.id.pet_lost_window_type);
-        petSex = getView().findViewById(R.id.pet_lost_window_sex);
-        petColors = getView().findViewById(R.id.pet_lost_window_colors);
-        petCollar = getView().findViewById(R.id.pet_lost_window_collar);
-        petDescription = getView().findViewById(R.id.pet_lost_window_description);
-        petAge = getView().findViewById(R.id.pet_lost_window_age);
-        petDate = getView().findViewById(R.id.pet_lost_window_date);
-        petNeutered = getView().findViewById(R.id.pet_lost_window_neutered);
-        contactName = getView().findViewById(R.id.pet_lost_window_contact_name);
-        contactPhone = getView().findViewById(R.id.pet_lost_window_contact_phone);
-        contactExtension = getView().findViewById(R.id.pet_lost_window_contact_extension);
-        owner = getView().findViewById(R.id.pet_lost_window_owner);
+        postStatus = getView().findViewById(R.id.pet_found_window_status);
+        postSituation = getView().findViewById(R.id.pet_found_window_situation);
+        postType = getView().findViewById(R.id.pet_found_window_type);
+        postSex = getView().findViewById(R.id.pet_found_window_sex);
+        postCollar = getView().findViewById(R.id.pet_found_window_collar);
+        postDescription = getView().findViewById(R.id.pet_found_window_description);
+        postDate = getView().findViewById(R.id.pet_found_window_date);
+        postColors = getView().findViewById(R.id.pet_found_window_colors);
+        postNeutered = getView().findViewById(R.id.pet_found_window_neutered);
+        postImage = getView().findViewById(R.id.pet_found_window_image);
+        contactName = getView().findViewById(R.id.pet_found_window_contact_name);
+        contactPhone = getView().findViewById(R.id.pet_found_window_contact_phone);
+        contactExtension = getView().findViewById(R.id.pet_found_window_contact_extension);
+        createdBy = getView().findViewById(R.id.pet_found_window_creator);
+
     }
 
     @Override
@@ -169,7 +170,7 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
-        petLocation = new LatLng(lostWindowPost.latitude, lostWindowPost.longitude);
+        petLocation = new LatLng(foundPostWindowSelected.latitude, foundPostWindowSelected.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(petLocation, 14));
         mMap.addMarker(new MarkerOptions().position(petLocation));
     }

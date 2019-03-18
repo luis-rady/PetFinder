@@ -164,7 +164,7 @@ public class EditPetFragment extends Fragment {
                     });
         }
         else {
-            db.collection(MainActivity.PET_CLASS).document(currentPet.name)
+            db.collection(MainActivity.PET_CLASS).document(currentPet.id)
                     .set(currentPet)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -194,10 +194,10 @@ public class EditPetFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
+                                        String pastPetId = currentPet.id;
                                         currentPet.id = taskSnapshot.getMetadata().getName();
                                         currentPet.petImageURL = uri.toString();
-
-                                        db.collection(MainActivity.PET_CLASS).document(currentPet.name)
+                                        db.collection(MainActivity.PET_CLASS).document(pastPetId)
                                                 .set(currentPet)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -335,7 +335,6 @@ public class EditPetFragment extends Fragment {
         }
 
     }
-
 
     private void setInputs() {
         petImage = getView().findViewById(R.id.pet_image_edit);

@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     // Public static variables
+    public static String FOUND_COLLECTION = "Found";
+    public static String LOST_COLLECTION = "Lost";
     public static String USER_CLASS = "Users";
     public static String PET_CLASS = "Pets";
     public static FirebaseAuth auth;

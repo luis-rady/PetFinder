@@ -64,6 +64,7 @@ public class PetLostSelectionFragment extends Fragment {
 
         db.collection(MainActivity.PET_CLASS)
                 .whereEqualTo("userId", MainActivity.currentUser.getUid())
+                .whereEqualTo("lost", false)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

@@ -46,27 +46,62 @@
             android:layout_margin="20dp"
             />
 
-        <TextView
-            android:id="@+id/lost_posts_profile_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Some information about the user"
-            android:layout_margin="20dp"
-            />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/found_posts_profile_text"
+            <TextView
+                android:id="@+id/lost_posts_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Some information about the user"
+                android:layout_margin="20dp"
+                />
+
+            <Button
+                android:id="@+id/see_lost_posts_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/buttonsColor"
+                android:text="@string/see_losts_posts"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Some information about the user"
-            android:layout_margin="20dp"
-            />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/found_posts_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Some information about the user"
+                android:layout_margin="20dp"
+                />
+
+            <Button
+                android:id="@+id/see_found_posts_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/buttonsColor"
+                android:text="@string/see_found_posts"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp">
 
             <Button
                 android:id="@+id/edit_info_button"

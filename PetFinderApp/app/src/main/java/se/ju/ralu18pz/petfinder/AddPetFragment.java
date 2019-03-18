@@ -178,7 +178,7 @@ public class AddPetFragment extends Fragment {
                     colors.remove(tanColor.getText().toString());
                 }
 
-                validForm = formValidation(name, years, months, colors);
+                validForm = formValidation();
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
@@ -210,31 +210,30 @@ public class AddPetFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                        userPetsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Pet pet = new Pet(taskSnapshot.getMetadata().getName(), name, type, sex, description, uri.toString(), MainActivity.currentUser.getUid(), colors, neutered, collar, years, months);
-                                db.collection(MainActivity.PET_CLASS).document(pet.name)
-                                        .set(pet)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                progressBar.setVisibility(View.GONE);
-                                                Toast.makeText(getActivity(), getString(R.string.pet_register_success), Toast.LENGTH_LONG).show();
-                                                petsFragment = new PetsFragment();
-                                                setFragment(petsFragment);
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-
-                            }
-                        });
-
+                        userPetsRef.getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Pet pet = new Pet(taskSnapshot.getMetadata().getName(), name, type, sex, description, uri.toString(), MainActivity.currentUser.getUid(), colors, neutered, collar, years, months);
+                                        db.collection(MainActivity.PET_CLASS).document(pet.id)
+                                                .set(pet)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        Toast.makeText(getActivity(), getString(R.string.pet_register_success), Toast.LENGTH_LONG).show();
+                                                        petsFragment = new PetsFragment();
+                                                        setFragment(petsFragment);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -245,7 +244,7 @@ public class AddPetFragment extends Fragment {
                 });
     }
 
-    private boolean formValidation(String name, String years, String months, ArrayList<String> colors) {
+    private boolean formValidation() {
         boolean valid = true;
 
         if(name == "" || name.length() == 0) {

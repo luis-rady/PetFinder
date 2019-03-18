@@ -86,7 +86,7 @@ public class EditUserFragment extends Fragment {
 
         emailInput.setFocusable(false);
 
-        db.collection("Users").document(MainActivity.currentUser.getUid())
+        db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -119,7 +119,7 @@ public class EditUserFragment extends Fragment {
 
                 if(validForm) {
                     progressBar.setVisibility(View.VISIBLE);
-                    db.collection("Users").document(MainActivity.currentUser.getUid())
+                    db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -129,7 +129,7 @@ public class EditUserFragment extends Fragment {
                                     currentUser.lastName = lastnames;
                                     currentUser.email = email;
 
-                                    db.collection("Users").document(MainActivity.currentUser.getUid())
+                                    db.collection(MainActivity.USER_CLASS).document(MainActivity.currentUser.getUid())
                                             .set(currentUser)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override

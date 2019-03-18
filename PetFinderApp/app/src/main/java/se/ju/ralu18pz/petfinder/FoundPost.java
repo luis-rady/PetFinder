@@ -1,26 +1,30 @@
 package se.ju.ralu18pz.petfinder;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+
 public class FoundPost {
 
     String postImage, petType, petSex, petNeutered, petCollar, petStatus,
-            petSituation, contactName, contactPhone, contactExtension, userId;
-    String[] petColors;
-    int yearFound, monthFound, dayFound;
-    double longitude, latitude;
+            petSituation, contactName, contactPhone, contactExtension, userId, date, description;
+    ArrayList<String> petColors;
+    double latitude, longitude;
 
 
     public FoundPost() {
 
     }
 
-    public FoundPost(String postImage, String petType, String petSex, String petNeutered,
+    public FoundPost(String postImage, String petType, String description, String petSex, String petNeutered,
                      String petCollar, String petStatus, String petSituation, String contactName,
-                     String contactPhone, String contactExtension, String[] petColors,
-                     int yearFound, int monthFound, int dayFound, double longitude, double latitude, String userId) {
+                     String contactPhone, String contactExtension, ArrayList<String> petColors,
+                     String date, double latitude, double longitude, String userId) {
 
         this.postImage = postImage;
         this.petType = petType;
         this.petSex = petSex;
+        this.description = description;
         this.petNeutered = petNeutered;
         this.petCollar = petCollar;
         this.petStatus = petStatus;
@@ -29,11 +33,9 @@ public class FoundPost {
         this.contactPhone = contactPhone;
         this.contactExtension = contactExtension;
         this.petColors = petColors;
-        this.yearFound = yearFound;
-        this.monthFound = monthFound;
-        this.dayFound = dayFound;
-        this.longitude = longitude;
+        this.date = date;
         this.latitude = latitude;
+        this.longitude = longitude;
         this.userId = userId;
     }
 }

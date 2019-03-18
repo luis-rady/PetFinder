@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Pet {
     String id, name, type, sex, description, petImageURL, userId, neutered, collar, years, months;
     ArrayList<String> colors;
+    boolean lost;
 
     public Pet() {
 
@@ -25,5 +26,6 @@ public class Pet {
         this.collar = collar;
         this.years = years;
         this.months = months;
+        lost = false;
     }
 }

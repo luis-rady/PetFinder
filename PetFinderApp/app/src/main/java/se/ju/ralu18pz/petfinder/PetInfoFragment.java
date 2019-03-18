@@ -1,6 +1,7 @@
 package se.ju.ralu18pz.petfinder;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,8 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import io.opencensus.internal.StringUtil;
@@ -32,11 +44,17 @@ public class PetInfoFragment extends Fragment {
     private TextView petNeutered;
     private TextView petCollar;
     private TextView petColors;
+    private TextView statusText;
     private ImageView petImage;
+    private ProgressBar progressBar;
 
     private Button editInfo;
     private Button deletePet;
     private EditPetFragment editPetFragment;
+    private PetsFragment petsFragment;
+
+    private FirebaseFirestore db;
+    private Uri selectedImageUri;
 
     public PetInfoFragment() {
         // Required empty public constructor
@@ -54,6 +72,9 @@ public class PetInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
         petName = getView().findViewById(R.id.pet_name_info);
         petType = getView().findViewById(R.id.pet_type_info);
         petSex = getView().findViewById(R.id.pet_sex_info);
@@ -64,6 +85,10 @@ public class PetInfoFragment extends Fragment {
         petColors = getView().findViewById(R.id.pet_colors_info);
         petImage = getView().findViewById(R.id.pet_image_info);
         editInfo = getView().findViewById(R.id.edit_info_pet_button);
+        deletePet = getView().findViewById(R.id.delete_pet_button);
+        statusText = getView().findViewById(R.id.pet_status_info);
+        progressBar = getView().findViewById(R.id.pet_info_progressbar);
+
 
         editInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +98,17 @@ public class PetInfoFragment extends Fragment {
             }
         });
 
+        deletePet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyItHasPosts();
+            }
+        });
+
+        progressBar.setVisibility(View.GONE);
         petName.setText(selectedPet.name);
 
+        selectedImageUri = Uri.parse(selectedPet.petImageURL);
         Picasso.with(getContext())
                 .load(selectedPet.petImageURL)
                 .fit()
@@ -83,7 +117,7 @@ public class PetInfoFragment extends Fragment {
 
         petType.setText("Type of pet: " + selectedPet.type);
         petSex.setText("Sex of the pet: " + selectedPet.sex);
-        petDescription.setText(selectedPet.description);
+        petDescription.setText("Description: " + selectedPet.description);
         petAge.setText("Pet has " + selectedPet.years + " years and " + selectedPet.months + " months");
         petNeutered.setText("Pet is neutered: " + selectedPet.neutered);
         petCollar.setText("Pet has collar: " + selectedPet.collar);
@@ -99,12 +133,92 @@ public class PetInfoFragment extends Fragment {
         }
 
         petColors.setText("Colors of the pet: " + col);
+        if(!selectedPet.lost) {
+            statusText.setText("Pet is actually not lost");
+        }
+        else {
+            statusText.setText("Pet is actually lost");
+        }
+    }
+
+    private void verifyItHasPosts() {
+        db.collection(MainActivity.LOST_COLLECTION)
+                .whereEqualTo("petId", selectedPet.id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult().size() == 0) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            deletePet();
+                        }
+                        else {
+                            deletePetPosts();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void deletePet() {
+        final StorageReference pictureRef = FirebaseStorage.getInstance().getReferenceFromUrl(selectedPet.petImageURL);
+        pictureRef.delete();
+
+        db.collection(MainActivity.PET_CLASS)
+                .document(selectedPet.id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), getString(R.string.pet_delete_message), Toast.LENGTH_LONG).show();
+                        petsFragment = new PetsFragment();
+                        setFragmentWithoutBackStack(petsFragment);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void deletePetPosts() {
+        progressBar.setVisibility(View.VISIBLE);
+        db.collection(MainActivity.LOST_COLLECTION)
+                .whereEqualTo("petId", selectedPet.id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        LostPost lostPost = new LostPost();
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            db.collection(MainActivity.LOST_COLLECTION)
+                                    .document(doc.getId())
+                                    .delete();
+                        }
+
+                        deletePet();
+                    }
+                });
     }
 
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void setFragmentWithoutBackStack(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
 }
