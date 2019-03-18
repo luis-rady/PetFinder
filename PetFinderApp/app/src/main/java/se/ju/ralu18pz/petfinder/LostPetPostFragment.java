@@ -211,10 +211,16 @@ public class LostPetPostFragment extends Fragment implements OnMapReadyCallback 
         date = lostDateText.getText().toString();
         circumstance = circumstanceInput.getSelectedItem().toString().trim();
         description = descriptionInput.getText().toString().trim();
-        lostPoint = petMarker.getPosition();
         contactName = contactNameInput.getText().toString().trim();
         contactPhone = contactPhoneInput.getText().toString().trim();
         contactExtension = extensionInput.getText().toString().trim();
+
+        if(petMarker != null) {
+            lostPoint = petMarker.getPosition();
+        }
+        else {
+            lostPoint = null;
+        }
     }
 
     private void setCurrentPosition() {

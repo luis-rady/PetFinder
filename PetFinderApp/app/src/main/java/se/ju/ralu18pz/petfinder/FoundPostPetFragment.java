@@ -293,7 +293,13 @@ public class FoundPostPetFragment extends Fragment implements OnMapReadyCallback
         contactPhone = contactPhoneInput.getText().toString().trim();
         contactExtension = extensionInput.getText().toString().trim();
         description = descriptionInput.getText().toString().trim();
-        foundPoint = petMarker.getPosition();
+        if(petMarker != null) {
+            foundPoint = petMarker.getPosition();
+        }
+        else {
+            foundPoint = null;
+        }
+
         colors = new ArrayList<String>();
 
         if(blackColor.isChecked()) {
