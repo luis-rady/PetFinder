@@ -75,4 +75,19 @@
     <string name="delete_account_label">Hesabı Sil</string>
     <string name="user_delete_label">Kullanıcı silindi</string>
     <string name="user_updated_label">Kulanıcı güncellendi</string>
+    <string name="pet_name_register">Evcil hayvanın adını giriniz</string>
+    <string name="months_label">Ay</string>
+    <string name="years_label">Yıl</string>
+    <string name="register_label">Kayıt et</string>
+    <string name="pet_register_success">Başarıyla Kayıt Edildi</string>
+    <string name="delete_pet">Evcil Hayvanı Sil</string>
+    <string name="pet_updated">Güncellendi</string>
+    <string name="post_successful">İlan Başarıyla Oluşturuldu</string>
+    <string name="change_status">Durumu değiştir</string>
+    <string name="pet_delete_message">Evcil Hayvan silindi</string>
+    <string name="see_losts_posts">Kaybolan Hayvanlara git</string>
+    <string name="see_found_posts">Bulunan Hayvanlara git</string>
+    <string name="delete_post_button">İlanı sil</string>
+    <string name="post_deleted_successfull">İlan başarıyla silindi</string>
+    <string name="found_pet_label">Bulunan Evcil Hayvanlar</string>
 </resources>
