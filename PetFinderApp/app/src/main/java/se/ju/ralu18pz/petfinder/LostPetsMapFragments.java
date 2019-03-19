@@ -35,7 +35,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import io.opencensus.tags.Tag;
 
 
 public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback {
@@ -52,7 +51,6 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
     private PetLostSelectionFragment petLostSelectionFragment;
     private NoAuthorizationFragment noAuthorizationFragment;
 
-    private Button reportPetButton;
 
     public LostPetsMapFragments() {
         // Required empty public constructor
@@ -71,6 +69,7 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
             mapFragment = SupportMapFragment.newInstance();
             ft.replace(R.id.lost_pets_map, mapFragment).commit();
         }
+
         mapFragment.getMapAsync(this);
         return v;
     }
@@ -79,26 +78,12 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setInputs();
-
-        reportPetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(MainActivity.currentUser == null) {
-                  setFragment(noAuthorizationFragment);
-                }
-                else {
-                    setFragment(petLostSelectionFragment);
-                }
-            }
-        });
     }
 
     private void setInputs() {
         MainActivity.currentUser = MainActivity.auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
-        reportPetButton = getView().findViewById(R.id.report_lost_pet_button);
 
         petLostSelectionFragment = new PetLostSelectionFragment();
         noAuthorizationFragment = new NoAuthorizationFragment();
@@ -244,8 +229,6 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
 }

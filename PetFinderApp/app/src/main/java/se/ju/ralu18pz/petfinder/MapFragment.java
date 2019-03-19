@@ -9,13 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 public class MapFragment extends Fragment {
     private Button lostMapButton;
     private Button foundMapButton;
+    private Button moveTo;
 
     private LostPetsMapFragments lostPetsMapFragments;
     private FoundPetsMapFragment foundPetsMapFragment;
+
+    private NoAuthorizationFragment noAuthorizationFragment;
+    private PetLostSelectionFragment petLostSelectionFragment;
+    private FoundPostPetFragment foundPostPetFragment;
+
+    private FrameLayout map;
 
     public MapFragment() {
         // Required empty public constructor
@@ -32,18 +40,27 @@ public class MapFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
 
         lostMapButton = getView().findViewById(R.id.lost_pets_button);
         foundMapButton = getView().findViewById(R.id.found_pets_button);
+        moveTo = getView().findViewById(R.id.move_to_pets_button);
+        map = getView().findViewById(R.id.map_fragment);
+
+        petLostSelectionFragment = new PetLostSelectionFragment();
+        foundPostPetFragment = new FoundPostPetFragment();
+        noAuthorizationFragment = new NoAuthorizationFragment();
 
         lostPetsMapFragments = new LostPetsMapFragments();
         foundPetsMapFragment = new FoundPetsMapFragment();
 
         setMapFragment(lostPetsMapFragments);
+        moveTo.setText("Report a lost pet");
 
         lostMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                moveTo.setText("Report a lost pet");
                 setMapFragment(lostPetsMapFragments);
             }
         });
@@ -51,15 +68,50 @@ public class MapFragment extends Fragment {
         foundMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                moveTo.setText("Report you found a pet");
                 setMapFragment(foundPetsMapFragment);
+            }
+        });
+
+        moveTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(moveTo.getText() == "Report a lost pet") {
+                    if(MainActivity.currentUser == null) {
+                        setFragment(noAuthorizationFragment);
+                    }
+                    else {
+                        setFragment(petLostSelectionFragment);
+                    }
+                }
+                else {
+                    if(MainActivity.currentUser == null) {
+                        setFragment(noAuthorizationFragment);
+                    }
+                    else {
+                        setFragment(foundPostPetFragment);
+                    }
+                }
             }
         });
 
     }
 
     private void setMapFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.map_fragment, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

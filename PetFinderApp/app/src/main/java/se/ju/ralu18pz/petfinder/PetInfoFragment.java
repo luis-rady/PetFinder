@@ -94,6 +94,7 @@ public class PetInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 editPetFragment = new EditPetFragment();
+                editPetFragment.currentPet = selectedPet;
                 setFragment(editPetFragment);
             }
         });

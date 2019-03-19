@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -38,22 +39,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/move_to_pets_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/buttonsColor"
+            android:text="@string/lost_pets_button"
+            android:textColor="@color/white" />
+
         <FrameLayout
+            android:id="@+id/map_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/map_fragment">
-        </FrameLayout>
-
-        <!--
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".MapsActivity" />
-
-        -->
+            android:layout_height="match_parent"></FrameLayout>
 
     </LinearLayout>
 

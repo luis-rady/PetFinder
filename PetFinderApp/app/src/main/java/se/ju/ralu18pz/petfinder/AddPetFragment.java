@@ -214,7 +214,7 @@ public class AddPetFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Pet pet = new Pet(taskSnapshot.getMetadata().getName(), name, type, sex, description, uri.toString(), MainActivity.currentUser.getUid(), colors, neutered, collar, years, months);
+                                        Pet pet = new Pet(taskSnapshot.getMetadata().getName(), name, type, sex, description, taskSnapshot.getMetadata().getName(), uri.toString(), MainActivity.currentUser.getUid(), colors, neutered, collar, years, months);
                                         db.collection(MainActivity.PET_CLASS).document(pet.id)
                                                 .set(pet)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

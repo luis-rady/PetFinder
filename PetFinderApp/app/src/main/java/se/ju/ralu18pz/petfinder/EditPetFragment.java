@@ -62,7 +62,7 @@ public class EditPetFragment extends Fragment {
     private int SELECT_FILE = 0;
     private int WRITE_EXTERNAL = 2;
 
-    private Pet currentPet = PetInfoFragment.selectedPet;
+    public static Pet currentPet;
 
     private ImageView petImage;
     private EditText petNameInput;
@@ -114,12 +114,6 @@ public class EditPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-
         setInputs();
         setInputValues();
 
@@ -148,7 +142,6 @@ public class EditPetFragment extends Fragment {
 
     private void eraseExistentPet() {
         if(selectedImageUri.toString() != currentPet.petImageURL) {
-            System.out.println("The images are different");
             final StorageReference pictureRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentPet.petImageURL);
             pictureRef.delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -165,7 +158,6 @@ public class EditPetFragment extends Fragment {
                     });
         }
         else {
-            System.out.println("The images are the same");
             db.collection(MainActivity.PET_CLASS).document(currentPet.id)
                     .set(currentPet)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -196,10 +188,9 @@ public class EditPetFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        String pastPetId = currentPet.id;
-                                        currentPet.id = taskSnapshot.getMetadata().getName();
+                                        currentPet.petImageId = taskSnapshot.getMetadata().getName();
                                         currentPet.petImageURL = uri.toString();
-                                        db.collection(MainActivity.PET_CLASS).document(pastPetId)
+                                        db.collection(MainActivity.PET_CLASS).document(currentPet.id)
                                                 .set(currentPet)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -339,6 +330,12 @@ public class EditPetFragment extends Fragment {
     }
 
     private void setInputs() {
+        MainActivity.currentUser = MainActivity.auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
         petImage = getView().findViewById(R.id.pet_image_edit);
         petNameInput = getView().findViewById(R.id.pet_name_input_edit);
         typePetSpinner = getView().findViewById(R.id.edit_spinner_pet_type);

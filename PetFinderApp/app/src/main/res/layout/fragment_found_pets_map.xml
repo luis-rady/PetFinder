@@ -7,14 +7,6 @@
     tools:context=".FoundPetsMapFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/report_found_pet_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/buttonsColor"
-        android:text="@string/report_found_pet"
-        android:textColor="@color/white" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
