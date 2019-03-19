@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -165,8 +166,7 @@ public class EditPetFragment extends Fragment {
                         public void onSuccess(Void aVoid) {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), getString(R.string.pet_updated), Toast.LENGTH_LONG).show();
-                            petsFragment = new PetsFragment();
-                            setFragment(petsFragment);
+                            ((FragmentActivity) getContext()).getSupportFragmentManager().popBackStack();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -197,8 +197,7 @@ public class EditPetFragment extends Fragment {
                                                     public void onSuccess(Void aVoid) {
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(getActivity(), getString(R.string.pet_updated), Toast.LENGTH_LONG).show();
-                                                        petsFragment = new PetsFragment();
-                                                        setFragment(petsFragment);
+                                                        ((FragmentActivity) getContext()).getSupportFragmentManager().popBackStack();
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {

@@ -75,7 +75,6 @@ public class AddPetFragment extends Fragment {
     private TextView checkboxError;
 
     private Button registerPet;
-    private Button cancel;
 
     private PetsFragment petsFragment;
 
@@ -184,14 +183,6 @@ public class AddPetFragment extends Fragment {
                     progressBar.setVisibility(View.VISIBLE);
                     uploadData();
                 }
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                petsFragment = new PetsFragment();
-                setFragment(petsFragment);
             }
         });
 
@@ -385,7 +376,6 @@ public class AddPetFragment extends Fragment {
         checkboxError = getView().findViewById(R.id.checkboxes_error);
 
         registerPet = getView().findViewById(R.id.register_post_pet_button);
-        cancel = getView().findViewById(R.id.cancel_register_pet_button);
         progressBar = getView().findViewById(R.id.register_pet_progress_bar);
     }
 

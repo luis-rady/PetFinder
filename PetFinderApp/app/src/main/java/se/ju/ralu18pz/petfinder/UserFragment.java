@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -213,9 +214,16 @@ public class UserFragment extends Fragment {
 
     private void logoutAction() {
         MainActivity.auth.signOut();
+        MainActivity.currentUser = null;
         Toast.makeText(getActivity(), getString(R.string.successful_sign_out), Toast.LENGTH_LONG).show();
-        setFragment(homeFragment);
+        setLogoutFragment(homeFragment);
         MainActivity.mainNav.getMenu().getItem(0).setChecked(true);
+    }
+
+    private void setLogoutFragment(HomeFragment homeFragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, homeFragment);
+        fragmentTransaction.commit();
     }
 
     private void getCountOfFoundPosts() {

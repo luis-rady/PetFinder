@@ -337,19 +337,11 @@
                 android:gravity="center"
                 android:layout_marginTop="20dp">
 
-                <Button
-                    android:id="@+id/cancel_register_pet_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/error"
-                    android:text="@string/cancel_button"
-                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/register_post_pet_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
                     android:backgroundTint="@color/buttonsColor"
                     android:text="@string/register_label"
                     android:textColor="@color/white" />

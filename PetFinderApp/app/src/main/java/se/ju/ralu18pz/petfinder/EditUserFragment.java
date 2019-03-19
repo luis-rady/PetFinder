@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -45,7 +46,6 @@ public class EditUserFragment extends Fragment {
     private EditText passwordInput;
 
     private Button editUser;
-    private Button cancel;
     private ProgressBar progressBar;
 
     private FirebaseFirestore db;
@@ -81,7 +81,6 @@ public class EditUserFragment extends Fragment {
         emailInput = getView().findViewById(R.id.email_input_edit);
         passwordInput = getView().findViewById(R.id.password_input_edit);
         editUser = getView().findViewById(R.id.update_user_button);
-        cancel = getView().findViewById(R.id.cancel_update_button);
         progressBar = getView().findViewById(R.id.update_user_progress_bar);
 
         emailInput.setFocusable(false);
@@ -140,7 +139,7 @@ public class EditUserFragment extends Fragment {
                                                                 public void onSuccess(Void aVoid) {
                                                                     progressBar.setVisibility(View.GONE);
                                                                     Toast.makeText(getActivity(), getString(R.string.user_updated_label), Toast.LENGTH_LONG).show();
-                                                                    setFragment(userFragment);
+                                                                    ((FragmentActivity) getContext()).getSupportFragmentManager().popBackStack();
                                                                 }
                                                             })
                                                             .addOnFailureListener(new OnFailureListener() {
@@ -166,13 +165,6 @@ public class EditUserFragment extends Fragment {
                                 }
                             });
                 }
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(userFragment);
             }
         });
     }
