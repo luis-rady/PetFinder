@@ -223,8 +223,14 @@ public class FoundPostPetFragment extends Fragment implements OnMapReadyCallback
 
     private boolean formValidation() {
         boolean valid = true;
+        String defaultString = getString(R.string.date_label_found);
 
-        if(date == getString(R.string.date_label_lost) || !validDate()) {
+        if(date == defaultString) {
+            foundDateText.setError("Date is invalid");
+            foundDateText.requestFocus();
+            valid = false;
+        }
+        else if(!validDate()) {
             foundDateText.setError("Date is invalid");
             foundDateText.requestFocus();
             valid = false;
@@ -288,7 +294,7 @@ public class FoundPostPetFragment extends Fragment implements OnMapReadyCallback
         collar = collarSpinner.getSelectedItem().toString().trim();
         status = statusSpinner.getSelectedItem().toString().trim();
         situation = situationSpinner.getSelectedItem().toString().trim();
-        date = foundDateText.getText().toString().trim();
+        date = foundDateText.getText().toString();
         contactName = contactNameInput.getText().toString().trim();
         contactPhone = contactPhoneInput.getText().toString().trim();
         contactExtension = extensionInput.getText().toString().trim();

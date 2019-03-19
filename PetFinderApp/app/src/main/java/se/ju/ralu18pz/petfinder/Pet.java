@@ -3,7 +3,7 @@ package se.ju.ralu18pz.petfinder;
 import java.util.ArrayList;
 
 public class Pet {
-    String id, name, type, sex, description, petImageURL, userId, neutered, collar, years, months;
+    String id, name, type, sex, description, petImageId, petImageURL, userId, neutered, collar, years, months;
     ArrayList<String> colors;
     boolean lost;
 
@@ -11,7 +11,7 @@ public class Pet {
 
     }
 
-    public Pet(String id, String name, String type, String sex, String description, String petImage, String userId, ArrayList<String> colors,
+    public Pet(String id, String name, String type, String sex, String description, String petImageId, String petImage, String userId, ArrayList<String> colors,
                String neutered, String collar, String years, String months) {
 
         this.id = id;
@@ -19,6 +19,7 @@ public class Pet {
         this.type = type;
         this.sex = sex;
         this.description = description;
+        this.petImageId = petImageId;
         this.petImageURL = petImage;
         this.userId = userId;
         this.colors = colors;

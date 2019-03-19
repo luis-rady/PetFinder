@@ -52,11 +52,7 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
     private FirebaseFirestore db;
 
     private DenyLocationPermissionFragment denyLocationPermissionFragment;
-    private NoAuthorizationFragment noAuthorizationFragment;
-    private FoundPostPetFragment foundPostPetFragment;
     private PetInfoFoundPostFragment petInfoFoundPostFragment;
-
-    private Button reportPetButton;
 
 
     public FoundPetsMapFragment() {
@@ -76,8 +72,8 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
             mapFragment = SupportMapFragment.newInstance();
             ft.replace(R.id.found_pets_map, mapFragment).commit();
         }
-        mapFragment.getMapAsync(this);
 
+        mapFragment.getMapAsync(this);
         return v;
     }
 
@@ -85,29 +81,12 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setInputs();
-
-        reportPetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(MainActivity.currentUser == null) {
-                    setFragment(noAuthorizationFragment);
-                }
-                else {
-                    setFragment(foundPostPetFragment);
-                }
-            }
-        });
     }
 
     private void setInputs() {
         MainActivity.currentUser = MainActivity.auth.getCurrentUser();
         db =FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
-        reportPetButton = getView().findViewById(R.id.report_found_pet_button);
-
-        noAuthorizationFragment = new NoAuthorizationFragment();
-        foundPostPetFragment = new FoundPostPetFragment();
 
     }
 
@@ -200,8 +179,8 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                            final FoundPost foundPost= documentSnapshot.toObject(FoundPost.class);
-                            final LatLng foundLocation = new LatLng(foundPost.latitude, foundPost.longitude);
+                            FoundPost foundPost= documentSnapshot.toObject(FoundPost.class);
+                            LatLng foundLocation = new LatLng(foundPost.latitude, foundPost.longitude);
 
                             String title = "Is a " + foundPost.petType;
                             String snippet = "Found on " + foundPost.date + "#" + foundPost.postImage;
@@ -219,9 +198,8 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
     }
 
     private void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getParentFragment().getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
