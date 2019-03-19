@@ -200,13 +200,15 @@ public class FoundPetsMapFragment extends Fragment implements OnMapReadyCallback
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                            final FoundPost foundPost= documentSnapshot.toObject(FoundPost.class);
-                            final LatLng foundLocation = new LatLng(foundPost.latitude, foundPost.longitude);
+                            FoundPost foundPost= documentSnapshot.toObject(FoundPost.class);
+                            System.out.println("The contact name of the pet is -> " + foundPost.contactName);
+                            LatLng foundLocation = new LatLng(foundPost.latitude, foundPost.longitude);
 
                             String title = "Is a " + foundPost.petType;
                             String snippet = "Found on " + foundPost.date + "#" + foundPost.postImage;
 
                             mMap.addMarker(new MarkerOptions().position(foundLocation).title(title).snippet(snippet));
+                            System.out.println("The marker was created");
                         }
                     }
                 })

@@ -148,6 +148,7 @@ public class EditPetFragment extends Fragment {
 
     private void eraseExistentPet() {
         if(selectedImageUri.toString() != currentPet.petImageURL) {
+            System.out.println("The images are different");
             final StorageReference pictureRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentPet.petImageURL);
             pictureRef.delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -164,6 +165,7 @@ public class EditPetFragment extends Fragment {
                     });
         }
         else {
+            System.out.println("The images are the same");
             db.collection(MainActivity.PET_CLASS).document(currentPet.id)
                     .set(currentPet)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
