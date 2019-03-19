@@ -1,57 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="Pets_types">
-        <item>Dog</item>
-        <item>Cat</item>
-        <item>Bird</item>
-        <item>Rabbit</item>
-        <item>Snake</item>
-        <item>Turtle</item>
-    </string-array>
-    <string-array name="Pets_Status">
-        <item>Missing</item>
-        <item>Not Missing</item>
-    </string-array>
-    <string-array name="pet_sex">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Not sure</item>
-    </string-array>
-    <string-array name="pet_neutered">
-        <item>Yes</item>
-        <item>No</item>
-        <item>Not sure</item>
-    </string-array>
-    <string-array name="pet_collar">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-    <string-array name="pet_status">
-        <item>Alive</item>
-        <item>Deceased</item>
-        <item>Injured</item>
-    </string-array>
-    <string-array name="pet_situation">
-        <item>With me</item>
-        <item>Visits me</item>
-        <item>Taken to vet</item>
-        <item>Taken to other person</item>
-        <item>Taken to rescue center</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="pet_circumstances">
-        <item>Disappeared from garden</item>
-        <item>Disappeared on walk</item>
-        <item>Escaped from house</item>
-        <item>Escaped from vehicle in road accident</item>
-        <item>Escaped from vehicle in road accident</item>
-        <item>Escaped other</item>
-        <item>Spooked</item>
-        <item>Stolen from garden</item>
-        <item>Stolen from vehicle</item>
-        <item>Stolen in house</item>
-        <item>Stolen whilst on walk</item>
-        <item>Other</item>
-    </string-array>
+
 </resources>

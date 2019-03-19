@@ -90,4 +90,57 @@
     <string name="delete_post_button">İlanı sil</string>
     <string name="post_deleted_successfull">İlan başarıyla silindi</string>
     <string name="found_pet_label">Bulunan Evcil Hayvanlar</string>
+
+    <string-array name="Pets_types">
+        <item>Köpek</item>
+        <item>Kedi</item>
+        <item>Kuş</item>
+        <item>Tavşan</item>
+        <item>Yılan</item>
+        <item>Kaplumbağa</item>
+    </string-array>
+    <string-array name="Pets_Status">
+        <item>Kayıp</item>
+        <item>Kayıp Değil</item>
+    </string-array>
+    <string-array name="pet_sex">
+        <item>Erkek</item>
+        <item>Dişi</item>
+        <item>Bilmiyorum</item>
+    </string-array>
+    <string-array name="pet_neutered">
+        <item>Evet</item>
+        <item>Hayır</item>
+        <item>Bilmiyorum</item>
+    </string-array>
+    <string-array name="pet_collar">
+        <item>Evet</item>
+        <item>Hayır</item>
+    </string-array>
+    <string-array name="pet_status">
+        <item>Canlı</item>
+        <item>Cansız</item>
+        <item>Yaralanmış</item>
+    </string-array>
+    <string-array name="pet_situation">
+        <item>Benimle kalıyor</item>
+        <item>Beni ziyaret ediyor</item>
+        <item>Veterinere bırakıldı</item>
+        <item>Başka bir insana bırakıldı</item>
+        <item>Bakım evine bırakıldı</item>
+        <item>Diğer</item>
+    </string-array>
+    <string-array name="pet_circumstances">
+        <item>Bahçede kayboldu</item>
+        <item>Gezdirirken kayboldu</item>
+        <item>Evden kaçtı</item>
+        <item>Arabadan Kaçtı</item>
+        <item>Diğer şekillerde kaçtı</item>
+        <item>Korkup Kaçtı</item>
+        <item>Bahçeden çalındı</item>
+        <item>Araadan çalındı</item>
+        <item>Evden çalındı</item>
+        <item>Yürüyüş sırasında çalındı</item>
+        <item>Diğer</item>
+    </string-array>
 </resources>
