@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -234,7 +233,7 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
-                            foundPostsCount.setText("You have " + task.getResult().size() + " posts of pet found in this moment");
+                            foundPostsCount.setText(getString(R.string.you_have_label)+ " " + task.getResult().size() + " " + getString(R.string.found_posts_made_label));
                         }
                     }
                 })
@@ -254,7 +253,7 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
-                            lostPostsCount.setText("There are " + task.getResult().size() + " of your pets lost in this moment");
+                            lostPostsCount.setText(getString(R.string.there_are_label) + " " + task.getResult().size() + " " + getString(R.string.of_lost_label));
                         }
                     }
                 })
@@ -274,7 +273,7 @@ public class UserFragment extends Fragment {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User currentUser = documentSnapshot.toObject(User.class);
                         name.setText(currentUser.firstName + " " + currentUser.lastName);
-                        email.setText("Email: " + currentUser.email);
+                        email.setText(getString(R.string.email_label) + ": " + currentUser.email);
                         db.collection(MainActivity.PET_CLASS)
                                 .whereEqualTo("userId", MainActivity.currentUser.getUid())
                                 .get()
@@ -282,7 +281,7 @@ public class UserFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if(task.isSuccessful()) {
-                                            petsCount.setText("Pets: " + String.valueOf(task.getResult().size()));
+                                            petsCount.setText(getString(R.string.nav_pets) + ": " + String.valueOf(task.getResult().size()));
                                         }
                                     }
                                 })

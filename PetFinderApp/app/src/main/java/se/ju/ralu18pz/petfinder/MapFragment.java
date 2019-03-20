@@ -55,12 +55,12 @@ public class MapFragment extends Fragment {
         foundPetsMapFragment = new FoundPetsMapFragment();
 
         setMapFragment(lostPetsMapFragments);
-        moveTo.setText("Report a lost pet");
+        moveTo.setText(getString(R.string.report_lost_pet));
 
         lostMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTo.setText("Report a lost pet");
+                moveTo.setText(getString(R.string.report_lost_pet));
                 setMapFragment(lostPetsMapFragments);
             }
         });
@@ -68,7 +68,7 @@ public class MapFragment extends Fragment {
         foundMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTo.setText("Report you found a pet");
+                moveTo.setText(getString(R.string.report_found_pet));
                 setMapFragment(foundPetsMapFragment);
             }
         });
@@ -76,7 +76,7 @@ public class MapFragment extends Fragment {
         moveTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(moveTo.getText() == "Report a lost pet") {
+                if(moveTo.getText() == getString(R.string.report_lost_pet)) {
                     if(MainActivity.currentUser == null) {
                         setFragment(noAuthorizationFragment);
                     }

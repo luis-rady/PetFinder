@@ -99,17 +99,17 @@ public class PetInfoFoundPostFragment extends Fragment implements OnMapReadyCall
                 .centerCrop()
                 .into(postImage);
 
-        postStatus.setText("The pet is: " + foundPostWindowSelected.petStatus);
-        postSituation.setText("The situation of the pet is: " + foundPostWindowSelected.petSituation);
-        postType.setText("The pet is a: " + foundPostWindowSelected.petType);
-        postSex.setText("The sex of the pet is: " + foundPostWindowSelected.petSex);
-        postCollar.setText("The pet has a collar: " +foundPostWindowSelected.petCollar);
-        postDescription.setText("Description: " + foundPostWindowSelected.description);
-        postDate.setText("Day it was found: " + foundPostWindowSelected.date);
-        postNeutered.setText("The pet is neutered: " + foundPostWindowSelected.petNeutered);
-        contactName.setText("If is your pet contact: " + foundPostWindowSelected.contactName);
-        contactPhone.setText("Phone: " + foundPostWindowSelected.contactPhone);
-        contactExtension.setText(" with extension: " + foundPostWindowSelected.contactExtension);
+        postStatus.setText(getString(R.string.status_label) +" "+ foundPostWindowSelected.petStatus);
+        postSituation.setText(getString(R.string.situation_label) +" "+ foundPostWindowSelected.petSituation);
+        postType.setText(getString(R.string.type_label) +" "+ foundPostWindowSelected.petType);
+        postSex.setText(getString(R.string.sex_label) +" "+ foundPostWindowSelected.petSex);
+        postCollar.setText(getString(R.string.collar_label) +" "+foundPostWindowSelected.petCollar);
+        postDescription.setText(getString(R.string.description_label) +": "+ foundPostWindowSelected.description);
+        postDate.setText(getString(R.string.date_label_found) +": "+ foundPostWindowSelected.date);
+        postNeutered.setText(getString(R.string.neutered_label) +" "+ foundPostWindowSelected.petNeutered);
+        contactName.setText(getString(R.string.if_is_your_pet) +" "+ foundPostWindowSelected.contactName);
+        contactPhone.setText(getString(R.string.phone_label) +" "+ foundPostWindowSelected.contactPhone);
+        contactExtension.setText(getString(R.string.with_extension) +" "+ foundPostWindowSelected.contactExtension);
 
         String col = "";
         for (int i = 0; i < foundPostWindowSelected.petColors.size(); i++) {

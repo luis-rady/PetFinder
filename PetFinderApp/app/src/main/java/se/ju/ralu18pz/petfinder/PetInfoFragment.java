@@ -116,12 +116,12 @@ public class PetInfoFragment extends Fragment {
                 .centerCrop()
                 .into(petImage);
 
-        petType.setText("Type of pet: " + selectedPet.type);
-        petSex.setText("Sex of the pet: " + selectedPet.sex);
-        petDescription.setText("Description: " + selectedPet.description);
-        petAge.setText("Pet has " + selectedPet.years + " years and " + selectedPet.months + " months");
-        petNeutered.setText("Pet is neutered: " + selectedPet.neutered);
-        petCollar.setText("Pet has collar: " + selectedPet.collar);
+        petType.setText(getString(R.string.type_label) +" "+ selectedPet.type);
+        petSex.setText(getString(R.string.sex_label) +" "+ selectedPet.sex);
+        petDescription.setText(getString(R.string.description_label) +" "+ selectedPet.description);
+        petAge.setText(getString(R.string.years_label) + ": " + selectedPet.years + " - " + getString(R.string.months_label) + ": " + selectedPet.months);
+        petNeutered.setText(getString(R.string.neutered_label) +" "+ selectedPet.neutered);
+        petCollar.setText(getString(R.string.collar_label) +" "+ selectedPet.collar);
 
         String col = "";
         for (int i = 0; i < selectedPet.colors.size(); i++) {
@@ -133,12 +133,12 @@ public class PetInfoFragment extends Fragment {
             }
         }
 
-        petColors.setText("Colors of the pet: " + col);
+        petColors.setText(getString(R.string.color_label) +" "+ col);
         if(!selectedPet.lost) {
-            statusText.setText("Pet is actually not lost");
+            statusText.setText(getString(R.string.pet_is_not_lost));
         }
         else {
-            statusText.setText("Pet is actually lost");
+            statusText.setText(getString(R.string.pet_is_lost));
         }
     }
 

@@ -9,14 +9,9 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_title" translatable="false">PetFinder</string>
-    <string name="home_app_info">We know you love your pets and when they get lost is something harmful for us and for the pet and sometimes search becomes difficult and expensive,
-        that’s why that with PetFinder your community can help you find your pet and you can find others’ pets too in a quickly and safe way without paying anything.
-        \n\n
-        With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner
-        can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost
-        you can add a post so people can be aware and help you find.
-    </string>
+    <string name="home_app_info">"We know you love your pets and when they get lost is something harmful for us and for the pet and sometimes search becomes difficult and expensive,         that’s why that with PetFinder your community can help you find your pet and you can find others’ pets too in a quickly and safe way without paying anything.                    With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner         can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost         you can add a post so people can be aware and help you find.     "</string>
     <string name="email_label">Email</string>
+    <string name="welcome_label">Welcome</string>
     <string name="hint_email">Enter your email address</string>
     <string name="password_label">Password</string>
     <string name="hint_password">Enter your password</string>
@@ -97,6 +92,20 @@
     <string name="delete_post_button">Delete post</string>
     <string name="post_deleted_successfull">Post deleted successfully</string>
     <string name="found_pet_label">Found Pet</string>
+    <string name="there_are_label">There are</string>
+    <string name="of_lost_label">of your pets lost in this moment</string>
+    <string name="you_have_label">You have</string>
+    <string name="found_posts_made_label">posts of pet found in this moment</string>
+    <string name="pet_is_not_lost">Pet is actually not lost</string>
+    <string name="pet_is_lost">Pet is actually lost</string>
+    <string name="lost_on_label">It was lost on:</string>
+    <string name="if_you_found">If you found it, contact:</string>
+    <string name="phone_label">Phone:</string>
+    <string name="with_extension">with extension:</string>
+    <string name="the_owner_of_the_pet_is">The owner of the pet is:</string>
+    <string name="your_lost_pets_label">Your lost pets</string>
+    <string name="your_found_pets_label">Your found pets</string>
+    <string name="if_is_your_pet">If is your pet contact:</string>
 
     <string-array name="Pets_types">
         <item>Dog</item>

@@ -54,7 +54,7 @@ public class HomeAfterLoginFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User currentUser = documentSnapshot.toObject(User.class);
-                        welcome.setText("Welcome " + currentUser.firstName);
+                        welcome.setText(getString(R.string.welcome_label) +" "+ currentUser.firstName);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

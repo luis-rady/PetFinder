@@ -205,7 +205,7 @@ public class LostPetsMapFragments extends Fragment implements OnMapReadyCallback
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             Pet pet = documentSnapshot.toObject(Pet.class);
-                                            String snippet = "Lost on " + lostPost.date + "#" + pet.petImageURL;
+                                            String snippet = getString(R.string.lost_on_label) +" "+ lostPost.date + "#" + pet.petImageURL;
                                             mMap.addMarker(new MarkerOptions().position(lostLocation).title(pet.name).snippet(snippet));
                                         }
                                     })

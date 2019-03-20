@@ -101,16 +101,16 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
                 .centerCrop()
                 .into(petImage);
 
-        petType.setText("Type of pet: " + petWindowSelected.type);
-        petSex.setText("Sex of the pet: " + petWindowSelected.sex);
-        petCollar.setText("Pet has collar: " + petWindowSelected.collar);
-        petDescription.setText("Description: " + petWindowSelected.description);
-        petAge.setText("Pet has " + petWindowSelected.years + " years and " + petWindowSelected.months + " months");
-        petNeutered.setText("Pet is neutered: " + petWindowSelected.neutered);
-        petDate.setText("It was lost on " + lostWindowPost.date);
-        contactName.setText("If you found it, contact: " + lostWindowPost.contactName);
-        contactPhone.setText("Phone: " + lostWindowPost.contactPhone);
-        contactExtension.setText("with extension: " + lostWindowPost.contactExtension);
+        petType.setText(getString(R.string.type_label) +" "+ petWindowSelected.type);
+        petSex.setText(getString(R.string.sex_label) +" "+ petWindowSelected.sex);
+        petCollar.setText(getString(R.string.collar_label) +" "+ petWindowSelected.collar);
+        petDescription.setText(getString(R.string.description_label) +" "+ petWindowSelected.description);
+        petAge.setText(getString(R.string.years_label) + ": " + petWindowSelected.years + " - " + getString(R.string.months_label) + ": " + petWindowSelected.months);
+        petNeutered.setText(getString(R.string.neutered_label) +" "+ petWindowSelected.neutered);
+        petDate.setText(getString(R.string.lost_on_label) +" "+ lostWindowPost.date);
+        contactName.setText(getString(R.string.if_you_found) +" "+ lostWindowPost.contactName);
+        contactPhone.setText(getString(R.string.phone_label) +" "+ lostWindowPost.contactPhone);
+        contactExtension.setText(getString(R.string.with_extension) +" "+ lostWindowPost.contactExtension);
 
         String col = "";
         for (int i = 0; i < petWindowSelected.colors.size(); i++) {
@@ -122,7 +122,7 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
             }
         }
 
-        petColors.setText("Colors of the pet: " + col);
+        petColors.setText(getString(R.string.color_label) +" "+ col);
     }
 
     private void setOwner() {
@@ -133,7 +133,7 @@ public class PetInfoPostFragment extends Fragment implements OnMapReadyCallback 
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User user = documentSnapshot.toObject(User.class);
-                        owner.setText("The owner of the pet is: " + user.firstName + " " + user.lastName);
+                        owner.setText(getString(R.string.the_owner_of_the_pet_is) +" "+ user.firstName + " " + user.lastName);
                     }
                 });
     }

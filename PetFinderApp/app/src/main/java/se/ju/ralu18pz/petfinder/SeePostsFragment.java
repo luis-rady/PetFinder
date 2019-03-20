@@ -64,7 +64,7 @@ public class SeePostsFragment extends Fragment {
         }
 
         if(type == 0) {
-            header.setText("Your lost pets");
+            header.setText(getString(R.string.your_lost_pets_label));
             lostPosts = new ArrayList<>();
 
             db.collection(MainActivity.LOST_COLLECTION)
@@ -90,7 +90,7 @@ public class SeePostsFragment extends Fragment {
                     });
         }
         else {
-            header.setText("Your found pets");
+            header.setText(getString(R.string.your_found_pets_label));
             foundPosts = new ArrayList<>();
 
             db.collection(MainActivity.FOUND_COLLECTION)

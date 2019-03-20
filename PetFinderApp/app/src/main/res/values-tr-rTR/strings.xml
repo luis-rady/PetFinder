@@ -8,7 +8,7 @@
     <string name="nav_pets">Evcil Hayvanlar</string>
     <string name="nav_profile">Profil</string>
     <string name="hello_blank_fragment">Merhaba Boş Bölüm</string>
-    <string name="home_app_info">Evcil hayvanlarını çok sevdiğinizi biliyoruz ve onların kaybolması bizim için çok üzücü ve bazen onları arayıp bulması çok zor ve pahalı oluyor [...]</string>
+    <string name="home_app_info">Evcil hayvanlarını çok sevdiğinizi biliyoruz ve onların kaybolması bizim için çok üzücü ve bazen onları arayıp bulması çok zor ve pahalı oluyor</string>
     <string name="email_label">E-posta</string>
     <string name="hint_email">E-posta adresinizi giriniz</string>
     <string name="password_label">Şifre</string>
@@ -30,7 +30,7 @@
     <string name="description_label">Açıklama</string>
     <string name="title_activity_maps">harita</string>
     <string name="your_pets">Evcil hayvanların</string>
-    <string name="lost_pets_button">Kayıpmuş Hayvanlar</string>
+    <string name="lost_pets_button">Kayıp Hayvanlar</string>
     <string name="found_pets_button">Bulunan Hayvanlar</string>
     <string name="missing_pet">Kayıp Hayvanlar</string>
     <string name="pet_name_label">İsim:</string>
@@ -143,4 +143,19 @@
         <item>Yürüyüş sırasında çalındı</item>
         <item>Diğer</item>
     </string-array>
+    <string name="there_are_label">Suanda</string>
+    <string name="of_lost_label">kayip olan evcil hayvaniniz var</string>
+    <string name="you_have_label">Suanda</string>
+    <string name="found_posts_made_label">bulunan hayvan ilaniniz var</string>
+    <string name="welcome_label">Hosgeldin</string>
+    <string name="pet_is_not_lost">Evcil hayvan kayip degil</string>
+    <string name="pet_is_lost">Evcil hayvan kayip</string>
+    <string name="lost_on_label">Su tarihte kayboldu:</string>
+    <string name="if_you_found">Bulunmasinda iletisim:</string>
+    <string name="phone_label">Telefon:</string>
+    <string name="with_extension">Alankodu:</string>
+    <string name="the_owner_of_the_pet_is">Hayvanin Sahibi:</string>
+    <string name="your_lost_pets_label">Kayip Hayvanlariniz</string>
+    <string name="your_found_pets_label">Buldugunuz Hayvanlar</string>
+    <string name="if_is_your_pet">"Sizinse Iletisim: "</string>
 </resources>
