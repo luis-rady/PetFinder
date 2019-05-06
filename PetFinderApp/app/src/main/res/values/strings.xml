@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">PetFinder</string>
+    <string name="SignUpButton">Sign up</string>
+    <string name="SignInButton">Sign in</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_pets">Pets</string>
+    <string name="nav_profile">Profile</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_title" translatable="false">PetFinder</string>
+    <string name="home_app_info">"We know you love your pets and when they get lost is something harmful for us and for the pet and sometimes search becomes difficult and expensive,         that’s why that with PetFinder your community can help you find your pet and you can find others’ pets too in a quickly and safe way without paying anything.                    With this app you as part of a community will be able to see all the pets that are lost around you, in case you find a someone else pet, you need to post so the owner         can se the post and ask you for information of the pet and is the same way if you lost your pet, you can register them once you create an account and when one of your pets get lost         you can add a post so people can be aware and help you find.     "</string>
+    <string name="email_label">Email</string>
+    <string name="welcome_label">Welcome</string>
+    <string name="hint_email">Enter your email address</string>
+    <string name="password_label">Password</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="name_label">First Name(s)</string>
+    <string name="hint_firstnames">Enter your first name(s)</string>
+    <string name="hint_lastnames">Enter your lastnames</string>
+    <string name="lastnames_label">Lastnames</string>
+    <string name="error_title">Error</string>
+    <string name="error_message">You need to sign in to see this information</string>
+    <string name="welcome_user_title">Welcome %1$s</string>
+    <string name="login_message">Thank you for using PetFinder app for helping your community to find their lost pets and meanwhile they can find yours</string>
+    <string name="user_info_title">Your information</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="edit_info_button">Edit information</string>
+    <string name="logoutButton">Logout</string>
+    <string name="updateButton">Update</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="description_label">Description</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="your_pets">Your Pets</string>
+    <string name="lost_pets_button">Lost Pets</string>
+    <string name="found_pets_button">Found pets</string>
+    <string name="missing_pet">Missing Pet</string>
+    <string name="pet_name_label">Name:</string>
+    <string name="report_found_pet">Report a found pet</string>
+    <string name="report_lost_pet">Report a lost pet</string>
+    <string name="no_permission_label">No permission granted</string>
+    <string name="permission_description">You need to accept the permission to use this feature</string>
+    <string name="go_to_permission_button">Go to permission</string>
+    <string name="add_pet_label">Register a pet</string>
+    <string name="edit_pet_label">Edit a pet</string>
+    <string name="error_sign_up">Sign up error</string>
+    <string name="error_sign_in">Sign in error</string>
+    <string name="successful_login">Login successfully</string>
+    <string name="successful_sign_up">Sign up successfully</string>
+    <string name="successful_sign_out">Sign out successfully</string>
+    <string name="go_to_sign_in_button">Go to sign in</string>
+    <string name="select_a_pet_title">Select a Pet</string>
+    <string name="black_label">Black</string>
+    <string name="brown_label">Brown</string>
+    <string name="white_label">White</string>
+    <string name="golden_label">Golden</string>
+    <string name="grey_label">Grey</string>
+    <string name="tan_label">Tan</string>
+    <string name="when_label">When it was found</string>
+    <string name="digits">0123456789+</string>
+    <string name="type_label">Type of the pet:</string>
+    <string name="sex_label">Sex of the pet:</string>
+    <string name="neutered_label">The pet is neutered:</string>
+    <string name="color_label">Colors of the pet:</string>
+    <string name="collar_label">Has collar:</string>
+    <string name="date_label_found">Date it was found</string>
+    <string name="status_label">Current status of the pet:</string>
+    <string name="situation_label">Current situation of the pet:</string>
+    <string name="where_label_found">Where it was found</string>
+    <string name="contact_name_label">Contact name</string>
+    <string name="contact_number_label">Contact number</string>
+    <string name="contact_extension">Extension</string>
+    <string name="post_label">Post</string>
+    <string name="date_label_lost">Date it was lost</string>
+    <string name="where_label_lost">Where it was lost</string>
+    <string name="circumstance_label">Circumstance:</string>
+    <string name="delete_account_label">Delete account</string>
+    <string name="user_delete_label">User deleted</string>
+    <string name="user_updated_label">User updated</string>
+    <string name="pet_name_register">Enter pet\'s name</string>
+    <string name="months_label">Months</string>
+    <string name="years_label">Years</string>
+    <string name="register_label">Register</string>
+    <string name="pet_register_success">Pet register successfully</string>
+    <string name="delete_pet">Delete pet</string>
+    <string name="pet_updated">Pet updated</string>
+    <string name="post_successful">Post successfully created</string>
+    <string name="change_status">Change status</string>
+    <string name="pet_delete_message">Pet deleted</string>
+    <string name="see_losts_posts">See lost posts</string>
+    <string name="see_found_posts">See found posts</string>
+    <string name="delete_post_button">Delete post</string>
+    <string name="post_deleted_successfull">Post deleted successfully</string>
+    <string name="found_pet_label">Found Pet</string>
+    <string name="there_are_label">There are</string>
+    <string name="of_lost_label">of your pets lost in this moment</string>
+    <string name="you_have_label">You have</string>
+    <string name="found_posts_made_label">posts of pet found in this moment</string>
+    <string name="pet_is_not_lost">Pet is actually not lost</string>
+    <string name="pet_is_lost">Pet is actually lost</string>
+    <string name="lost_on_label">It was lost on:</string>
+    <string name="if_you_found">If you found it, contact:</string>
+    <string name="phone_label">Phone:</string>
+    <string name="with_extension">with extension:</string>
+    <string name="the_owner_of_the_pet_is">The owner of the pet is:</string>
+    <string name="your_lost_pets_label">Your lost pets</string>
+    <string name="your_found_pets_label">Your found pets</string>
+    <string name="if_is_your_pet">If is your pet contact:</string>
+
+    <string-array name="Pets_types">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Bird</item>
+        <item>Rabbit</item>
+        <item>Snake</item>
+        <item>Turtle</item>
+    </string-array>
+    <string-array name="Pets_Status">
+        <item>Missing</item>
+        <item>Not Missing</item>
+    </string-array>
+    <string-array name="pet_sex">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Not sure</item>
+    </string-array>
+    <string-array name="pet_neutered">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Not sure</item>
+    </string-array>
+    <string-array name="pet_collar">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="pet_status">
+        <item>Alive</item>
+        <item>Deceased</item>
+        <item>Injured</item>
+    </string-array>
+    <string-array name="pet_situation">
+        <item>With me</item>
+        <item>Visits me</item>
+        <item>Taken to vet</item>
+        <item>Taken to other person</item>
+        <item>Taken to rescue center</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="pet_circumstances">
+        <item>Disappeared from garden</item>
+        <item>Disappeared on walk</item>
+        <item>Escaped from house</item>
+        <item>Escaped from vehicle in road accident</item>
+        <item>Escaped other</item>
+        <item>Spooked</item>
+        <item>Stolen from garden</item>
+        <item>Stolen from vehicle</item>
+        <item>Stolen in house</item>
+        <item>Stolen whilst on walk</item>
+        <item>Other</item>
+    </string-array>
+
+</resources>

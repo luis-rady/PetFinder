@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f8dd0b</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="navbarColor">#ebebeb</color>
+    <color name="buttonsColor">#6100ED</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="error">#FB2626</color>
+</resources>
